@@ -49,8 +49,8 @@
 }
 
 .big-loader {
-  width: 30px;
-  height: 30px;
+  width: 18px;
+  height: 18px;
   background-color: white;
   border-radius: 50%;
   margin: 0;
@@ -70,8 +70,8 @@
 }
 
 .small-loader {
-  width: 15px;
-  height: 15px;
+  width: 13px;
+  height: 13px;
   background-color: white;
   border-radius: 50%;
   margin: 0;
@@ -88,4 +88,34 @@
 
 .small-loader:hover {
   opacity: 0.5;
+}
+
+.home-button {
+  border: 0;
+  outline: 0;
+  cursor: pointer;
+  color: rgb(60, 66, 87);
+  background-color: rgb(255, 255, 255);
+  box-shadow: rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px,
+    rgb(0 0 0 / 12%) 0px 1px 1px 0px, rgb(60 66 87 / 16%) 0px 0px 0px 1px,
+    rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px,
+    rgb(60 66 87 / 8%) 0px 2px 5px 0px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 4px 8px;
+  display: inline-block;
+  min-height: 28px;
+  transition: background-color 0.24s, box-shadow 0.24s;
+}
+
+.home-button:hover {
+  opacity: 0.9;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px,
+    rgb(209, 213, 219) 0px 0px 0px 1px inset;
+}
+
+.margin-title {
+  margin-left: 10rem;
+  margin-right: 10rem;
 }

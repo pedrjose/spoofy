@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Home.css";
 
 export function Home() {
@@ -36,13 +37,21 @@ export function Home() {
       setHomeTitle("Aprenda línguas estrangeiras por meio de músicas");
     }
   };
+
+  const navigate = useNavigate();
   return (
     <>
       <section className={classhome}>
-        <h1>{homeTitle}</h1>
+        <h1 className="margin-title font-sans text-4xl subpixel-antialiased font-semibold text-clip break-keep border-black italic">
+          {homeTitle}
+        </h1>
         <span className="display-loaders">
-          <button>Entrar</button>
-          <button>Cadastrar</button>
+          <button className="home-button" onClick={() => navigate("/login")}>
+            Entrar
+          </button>
+          <button className="home-button" onClick={() => navigate("sign-up")}>
+            Cadastrar
+          </button>
         </span>
         <span className="display-loaders">
           <button

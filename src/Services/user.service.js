@@ -10,9 +10,10 @@ export const initSession = async (email, password) => {
       password,
     });
 
-    return response.data;
+    return { error: false, response: response.data };
   } catch (error) {
     return {
+      error: true,
       message: "O email ou a senha não estão corretos. Tente novamente!",
     };
   }

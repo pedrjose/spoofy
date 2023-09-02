@@ -1,24 +1,38 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import spoofy from "../../../public/logo/spoofy.png";
+import { LoaderAnimation } from "../Animation/Loader";
+import "./login.components.css";
 
+import { initSession } from "../../Services/user.service";
+
+// Zod Login Schema
 const loginSchema = z.object({
   email: z.string().nonempty("Este campo é obrigatório"),
   password: z
     .string()
     .nonempty("Este campo é obrigatório")
-    .min(10, "A senha deve conter, no mínimo, 10 caracteres")
+    .min(10, "Senha não está conforme os padrões da plataforma")
     .refine((password) => /[0-9]/.test(password), {
-      message: "A senha deve conter pelo menos 1 número",
+      message: "Senha não está conforme os padrões da plataforma",
     })
     .refine((password) => /[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]/.test(password), {
-      message: "A senha deve conter pelo menos 1 caractere especial",
+      message: "Senha não está conforme os padrões da plataforma",
     }),
 });
 
 export function LoginModal() {
+  // States and Imports
+  const [solvingPromise, setSolvingPromise] = useState(false);
+  const [promiseError, setPromiseError] = useState({
+    error: false,
+    message: "",
+  });
+
+  // React Hook Form Imports
   const {
     register,
     handleSubmit,
@@ -28,8 +42,20 @@ export function LoginModal() {
     resolver: zodResolver(loginSchema),
   });
 
-  const getUserFormData = () => {
+  // Getting Form Data and Try Init Session
+  const getUserFormData = async () => {
     const { email, password } = getValues();
+
+    setSolvingPromise(true);
+    const login = await initSession(email, password);
+    setSolvingPromise(false);
+
+    if (login.error) {
+      setPromiseError(login);
+    } else {
+      setPromiseError({ error: false, message: "" });
+      console.log("Login sucessfully");
+    }
   };
   return (
     <>
@@ -95,14 +121,23 @@ export function LoginModal() {
               </div>
             </div>
 
-            <div>
-              <button
-                type="submit"
-                className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              >
-                Entrar
-              </button>
+            <div className="center-basic">
+              {!solvingPromise ? (
+                <button
+                  type="submit"
+                  className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                >
+                  Entrar
+                </button>
+              ) : (
+                <LoaderAnimation />
+              )}
             </div>
+            {promiseError.error && !solvingPromise ? (
+              <span className="block text-sm font-medium leading-6 text-orange-400">
+                {promiseError.message}
+              </span>
+            ) : null}
           </form>
         </div>
       </div>

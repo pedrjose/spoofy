@@ -26,8 +26,11 @@ export const initAccount = async (email, password, avatar) => {
       password,
       avatar,
     });
+
+    return { error: false, message: "Conta criada com sucesso!" };
   } catch (error) {
     return {
+      error: true,
       message: "Erro ao criar a conta. Tente novamente!",
     };
   }

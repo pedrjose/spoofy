@@ -3,3 +3,7 @@
     align-items: center;
     justify-content: center;
 }
+
+.padding-top-span {
+    padding-top: -1rem;
+}

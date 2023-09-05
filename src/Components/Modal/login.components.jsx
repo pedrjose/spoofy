@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useNavigate } from "react-router-dom";
 
 import spoofy from "../../../public/logo/spoofy.png";
 import { LoaderAnimation } from "../Animation/Loader";
@@ -9,7 +10,6 @@ import "./login.components.css";
 
 import { initSession } from "../../Services/user.service";
 
-// Zod Login Schema
 const loginSchema = z.object({
   email: z.string().nonempty("Este campo é obrigatório"),
   password: z
@@ -25,14 +25,14 @@ const loginSchema = z.object({
 });
 
 export function LoginModal() {
-  // States and Imports
+  const navigate = useNavigate();
+
   const [solvingPromise, setSolvingPromise] = useState(false);
   const [promiseError, setPromiseError] = useState({
     error: false,
     message: "",
   });
 
-  // React Hook Form Imports
   const {
     register,
     handleSubmit,
@@ -42,8 +42,7 @@ export function LoginModal() {
     resolver: zodResolver(loginSchema),
   });
 
-  // Getting Form Data and Try Init Session
-  const getUserFormData = async () => {
+  const submitFormData = async () => {
     const { email, password } = getValues();
 
     setSolvingPromise(true);
@@ -54,7 +53,8 @@ export function LoginModal() {
       setPromiseError(login);
     } else {
       setPromiseError({ error: false, message: "" });
-      console.log("Login sucessfully");
+      console.log("Login successfully");
+      navigate("/search");
     }
   };
   return (
@@ -70,7 +70,7 @@ export function LoginModal() {
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
           <form
-            onSubmit={handleSubmit(getUserFormData)}
+            onSubmit={handleSubmit(submitFormData)}
             className="space-y-4"
             action="#"
             method="POST"

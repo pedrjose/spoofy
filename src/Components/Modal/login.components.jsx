@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 import spoofy from "../../../public/logo/spoofy.png";
 import { LoaderAnimation } from "../Animation/Loader";
@@ -53,8 +54,9 @@ export function LoginModal() {
       setPromiseError(login);
     } else {
       setPromiseError({ error: false, message: "" });
-      console.log("Login successfully");
-      navigate("/search");
+      Cookies.set("sessionToken", login.response.token.token);
+      console.log(Cookies.get("sessionToken"));
+      navigate("/");
     }
   };
   return (

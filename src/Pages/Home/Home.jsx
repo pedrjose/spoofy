@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 import "./Home.css";
 
 export function Home() {
@@ -24,6 +25,16 @@ export function Home() {
       clearInterval(interval);
     };
   }, [classhome]);
+
+  useEffect(() => {
+    if (!Cookies.get("logged")) {
+      Cookies.set("logged", "0");
+    }
+
+    if (Cookies.get("logged") && Cookies.get("logged") === "1") {
+      window.location.reload();
+    }
+  }, []);
 
   const changeBackground = (number) => {
     if (number === 1) {

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Cookies from "js-cookie";
 
 import spoofy from "../../../public/logo/spoofy.png";
@@ -55,7 +55,7 @@ export function LoginModal() {
     } else {
       setPromiseError({ error: false, message: "" });
       Cookies.set("sessionToken", login.response.token.token);
-      console.log(Cookies.get("sessionToken"));
+      Cookies.set("logged", "1");
       navigate("/");
     }
   };
@@ -63,11 +63,13 @@ export function LoginModal() {
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 pl-4 pr-4">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <img
-            className="mx-auto h-10 w-auto"
-            src={spoofy}
-            alt="Your Company"
-          />
+          <Link to="/">
+            <img
+              className="mx-auto h-10 w-auto"
+              src={spoofy}
+              alt="Your Company"
+            />
+          </Link>
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">

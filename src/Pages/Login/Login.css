@@ -1,0 +1,15 @@
+.section-settings {
+  height: 100vh;
+  background-color: #2b0f54;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.input-settings {
+  padding-left: 1rem;
+}
+
+.button-bg {
+  background-color: #ff4f69;
+}

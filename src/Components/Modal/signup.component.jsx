@@ -128,7 +128,12 @@ export function SignUpModal() {
                   htmlFor="password"
                   className="block text-sm font-medium leading-6 text-white"
                 >
-                  Avatar URL
+                  <a
+                    href="https://www.youtube.com/watch?v=OkJ9qfhNZBU"
+                    target="_blank"
+                  >
+                    Avatar URL
+                  </a>
                 </label>
               </div>
               <div className="mt-2">

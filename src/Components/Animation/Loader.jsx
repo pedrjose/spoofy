@@ -16,7 +16,7 @@ export const LoaderAnimation = () => {
 export const SearchAnimation = () => {
   return (
     <>
-      <div class="lds-default">
+      <div className="lds-default">
         <div></div>
         <div></div>
         <div></div>
@@ -37,7 +37,8 @@ export const SearchAnimation = () => {
 export const SearchLyricAnimation = () => {
   return (
     <>
-      <div class="lds-ripple">
+      <div className="lds-facebook">
+        <div></div>
         <div></div>
         <div></div>
       </div>

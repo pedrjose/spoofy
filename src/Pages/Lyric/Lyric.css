@@ -1,0 +1,59 @@
+.lyric-page-settings {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: auto;
+  flex-direction: column;
+  background-color: #fff7f8;
+  margin-top: 6rem;
+}
+
+.justify-content-lyrics {
+  margin-top: 1rem;
+}
+
+.justify-content-not-found {
+  margin-top: 7rem;
+}
+
+.lyric-name {
+  font-size: 1.5rem;
+  font-weight: bolder;
+  color: #2b0f54;
+  margin-left: 1.5rem;
+  margin-right: 1.5rem;
+}
+
+.artist-name {
+  font-size: 1.1rem;
+  font-style: bold;
+  color: #2b0f54;
+  margin-left: 1.5rem;
+  margin-right: 1.5rem;
+}
+
+.lyric-button {
+  margin-top: -5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+}
+
+.icon-buttons {
+  border-radius: 8px;
+  height: 2rem;
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
+    rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+}
+
+.explicit-icon {
+  height: 1.5rem;
+  margin-left: 1.5rem;
+  margin-right: 1.5rem;
+  margin-bottom: -.3rem;
+}
+
+.icon-buttons:hover {
+  opacity: 0.5;
+}

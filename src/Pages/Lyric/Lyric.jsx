@@ -17,7 +17,7 @@ import explicit from "../../../public/logo/explicit.png";
 
 export function LyricPage() {
   const navigate = useNavigate();
-  
+
   const [pageData, setPageData] = useState({ promiseSolved: false });
   const [solvingPromise, setSolvingPromise] = useState(true);
   const [errorPromise, setErrorPromise] = useState(false);
@@ -47,6 +47,20 @@ export function LyricPage() {
     !lyricTranslate ? setLyricTranslate(true) : setLyricTranslate(false);
   };
 
+  const downloadLyric = () => {
+    const lyricDownload = document.getElementById("download").innerHTML;
+
+    const downloadWindow = window.open("", "", "width=800", "height=600");
+
+    downloadWindow.document.write("<html><head>");
+    downloadWindow.document.write("<title>Spoofy - Baixar Lyric</title></head>");
+    downloadWindow.document.write("<body>");
+    downloadWindow.document.write(lyricDownload);
+    downloadWindow.document.write("</body></html>");
+    downloadWindow.document.close();
+    downloadWindow.print();
+  };
+
   const searchAgain = () => {
     navigate("/");
   };
@@ -61,7 +75,7 @@ export function LyricPage() {
     <>
       <Navbar />
       <section className="lyric-page-settings">
-        <div className="justify-content-lyrics">
+        <div id="download" className="justify-content-lyrics">
           {pageData.promiseSolved && pageData.badwords ? (
             <img src={explicit} className="explicit-icon" />
           ) : null}
@@ -99,7 +113,7 @@ export function LyricPage() {
             <button>
               <img src={brain} alt="Learn Button" className="icon-buttons" />
             </button>
-            <button>
+            <button onClick={() => downloadLyric()}>
               <img
                 src={download}
                 alt="Download Button"

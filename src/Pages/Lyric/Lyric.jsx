@@ -1,6 +1,7 @@
 import "./Lyric.css";
 import { useParams } from "react-router-dom";
 import { Navbar } from "../../Components/Navbar/Navbar";
+import { useNavigate } from "react-router-dom";
 import { NotFound } from "../../Components/NotFound/NotFound";
 import { LyricLine } from "../../Components/LyricLine/LyricLine";
 import { useEffect, useState } from "react";
@@ -15,9 +16,13 @@ import search from "../../../public/logo/search.png";
 import explicit from "../../../public/logo/explicit.png";
 
 export function LyricPage() {
+  const navigate = useNavigate();
+  
   const [pageData, setPageData] = useState({ promiseSolved: false });
   const [solvingPromise, setSolvingPromise] = useState(true);
   const [errorPromise, setErrorPromise] = useState(false);
+
+  const [lyricTranslate, setLyricTranslate] = useState(false);
 
   const { artist } = useParams();
   const { music } = useParams();
@@ -36,6 +41,14 @@ export function LyricPage() {
       setSolvingPromise(false);
       setPageData(lyric);
     }
+  };
+
+  const translateLyric = () => {
+    !lyricTranslate ? setLyricTranslate(true) : setLyricTranslate(false);
+  };
+
+  const searchAgain = () => {
+    navigate("/");
   };
 
   useEffect(() => {
@@ -60,8 +73,13 @@ export function LyricPage() {
           ) : null}
 
           <br />
-          {pageData.promiseSolved
+          {pageData.promiseSolved && !lyricTranslate
             ? pageData.musicLyric.map((item, index) => {
+                return <LyricLine key={index} props={item} />;
+              })
+            : null}
+          {pageData.promiseSolved && lyricTranslate
+            ? pageData.translate.map((item, index) => {
                 return <LyricLine key={index} props={item} />;
               })
             : null}
@@ -71,7 +89,7 @@ export function LyricPage() {
         </div>
         {pageData.promiseSolved ? (
           <span className="lyric-button">
-            <button>
+            <button onClick={() => translateLyric()}>
               <img
                 src={translate}
                 alt="Translate Button"
@@ -88,7 +106,7 @@ export function LyricPage() {
                 className="icon-buttons"
               />
             </button>
-            <button>
+            <button onClick={() => searchAgain()}>
               <img src={search} alt="Search Button" className="icon-buttons" />
             </button>
           </span>

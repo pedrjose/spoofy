@@ -12,3 +12,36 @@ export const LoaderAnimation = () => {
     </>
   );
 };
+
+export const SearchAnimation = () => {
+  return (
+    <>
+      <div className="lds-default">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </>
+  );
+};
+
+export const SearchLyricAnimation = () => {
+  return (
+    <>
+      <div className="lds-facebook">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </>
+  );
+};

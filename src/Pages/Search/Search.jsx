@@ -1,19 +1,18 @@
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
+import "./Search.css";
+import { SearchModal } from "../../Components/Modal/search.component";
+import { Navbar } from "../../Components/Navbar/Navbar";
 
 export const SearchPage = () => {
-  const logout = () => {
-    Cookies.remove("sessionToken");
-    Cookies.set("logged", "0");
-    window.location.reload();
-  };
   return (
     <>
-      <p>Search Page</p>
-      <br />
-      <button className="bg-red-800	text-white" onClick={() => logout()}>
-        Sair
-      </button>
+      <section className="section-settings-search-page">
+        <Navbar />
+        <span>
+          <SearchModal />
+        </span>
+      </section>
     </>
   );
 };

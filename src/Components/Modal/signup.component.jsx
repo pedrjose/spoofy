@@ -143,6 +143,22 @@ export function SignUpModal() {
                     {errors.avatar.message}
                   </span>
                 ) : null}
+                {errors.avatar ? null : (
+                  <span className="block text-sm font-medium leading-6 text-yellow-400 pt-1.5">
+                    Veja como criar seu Avatar URL{" "}
+                    <b>
+                      <i>
+                        <a
+                          href="https://www.youtube.com/watch?v=OkJ9qfhNZBU"
+                          target="_blank"
+                        >
+                          aqui
+                        </a>
+                      </i>
+                    </b>
+                    !
+                  </span>
+                )}
               </div>
             </div>
 

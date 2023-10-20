@@ -1,6 +1,7 @@
 import "./Lyric.css";
 import { useParams } from "react-router-dom";
 import { Navbar } from "../../Components/Navbar/Navbar";
+import { useNavigate } from "react-router-dom";
 import { NotFound } from "../../Components/NotFound/NotFound";
 import { LyricLine } from "../../Components/LyricLine/LyricLine";
 import { useEffect, useState } from "react";
@@ -15,9 +16,13 @@ import search from "../../../public/logo/search.png";
 import explicit from "../../../public/logo/explicit.png";
 
 export function LyricPage() {
+  const navigate = useNavigate();
+
   const [pageData, setPageData] = useState({ promiseSolved: false });
   const [solvingPromise, setSolvingPromise] = useState(true);
   const [errorPromise, setErrorPromise] = useState(false);
+
+  const [lyricTranslate, setLyricTranslate] = useState(false);
 
   const { artist } = useParams();
   const { music } = useParams();
@@ -38,6 +43,28 @@ export function LyricPage() {
     }
   };
 
+  const translateLyric = () => {
+    !lyricTranslate ? setLyricTranslate(true) : setLyricTranslate(false);
+  };
+
+  const downloadLyric = () => {
+    const lyricDownload = document.getElementById("download").innerHTML;
+
+    const downloadWindow = window.open("", "", "width=800", "height=600");
+
+    downloadWindow.document.write("<html><head>");
+    downloadWindow.document.write("<title>Spoofy - Baixar Lyric</title></head>");
+    downloadWindow.document.write("<body>");
+    downloadWindow.document.write(lyricDownload);
+    downloadWindow.document.write("</body></html>");
+    downloadWindow.document.close();
+    downloadWindow.print();
+  };
+
+  const searchAgain = () => {
+    navigate("/");
+  };
+
   useEffect(() => {
     const decodeParams = decodeParamsWithSpaces({ artist, music });
 
@@ -48,7 +75,7 @@ export function LyricPage() {
     <>
       <Navbar />
       <section className="lyric-page-settings">
-        <div className="justify-content-lyrics">
+        <div id="download" className="justify-content-lyrics">
           {pageData.promiseSolved && pageData.badwords ? (
             <img src={explicit} className="explicit-icon" />
           ) : null}
@@ -60,8 +87,13 @@ export function LyricPage() {
           ) : null}
 
           <br />
-          {pageData.promiseSolved
+          {pageData.promiseSolved && !lyricTranslate
             ? pageData.musicLyric.map((item, index) => {
+                return <LyricLine key={index} props={item} />;
+              })
+            : null}
+          {pageData.promiseSolved && lyricTranslate
+            ? pageData.translate.map((item, index) => {
                 return <LyricLine key={index} props={item} />;
               })
             : null}
@@ -71,7 +103,7 @@ export function LyricPage() {
         </div>
         {pageData.promiseSolved ? (
           <span className="lyric-button">
-            <button>
+            <button onClick={() => translateLyric()}>
               <img
                 src={translate}
                 alt="Translate Button"
@@ -81,14 +113,14 @@ export function LyricPage() {
             <button>
               <img src={brain} alt="Learn Button" className="icon-buttons" />
             </button>
-            <button>
+            <button onClick={() => downloadLyric()}>
               <img
                 src={download}
                 alt="Download Button"
                 className="icon-buttons"
               />
             </button>
-            <button>
+            <button onClick={() => searchAgain()}>
               <img src={search} alt="Search Button" className="icon-buttons" />
             </button>
           </span>

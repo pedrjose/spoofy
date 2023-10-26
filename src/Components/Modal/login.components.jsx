@@ -54,7 +54,7 @@ export function LoginModal() {
       setPromiseError(login);
     } else {
       setPromiseError({ error: false, message: "" });
-      Cookies.set("sessionToken", login.response.token.token);
+      Cookies.set("sessionToken", login.response);
       Cookies.set("logged", "1");
       navigate("/");
     }

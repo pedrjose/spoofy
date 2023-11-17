@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import "./search.component.css";
 
 import { findLyrics } from "../../Services/music.service";
+import { SearchDesign } from "../SearchDesign/SearchDesign";
 
 const SearchSchema = z.object({
   artist: z.string().nonempty("Informe um artista ou banda"),
@@ -32,6 +33,7 @@ export function SearchModal() {
   return (
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 pl-4 pr-4">
+        <SearchDesign />
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm mt-0">
           <form
             onSubmit={handleSubmit(submitFormData)}

@@ -3,7 +3,7 @@ import { formatHotspotArray } from "./format.service";
 
 const apiUrl = "https://api.vagalume.com.br/hotspots.php?"; // Adicione o protocolo https
 
-export const hotspot = async (artist, music) => {
+export const hotspotService = async (artist, music) => {
   try {
     const response = await axios.get(apiUrl);
     if (

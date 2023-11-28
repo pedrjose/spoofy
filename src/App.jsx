@@ -12,6 +12,10 @@ import { SignUp } from "./Pages/SignUp/SignUp";
 import { SearchPage } from "./Pages/Search/Search";
 import { ProfilePage } from "./Pages/Profile/Profile";
 import { LyricPage } from "./Pages/Lyric/Lyric";
+import { CreatePlaylistPage } from "./Pages/CreatePlaylistPage/CreatePlaylistPage";
+import { PlaylistsPage } from "./Pages/PlaylistsPage/PlaylistsPage";
+import { LearnPage } from "./Pages/Learn/Learn";
+import { HotspotPage } from "./Pages/HotspotPage/HotspotPage";
 
 function App() {
   return (
@@ -36,6 +40,26 @@ function App() {
         <Route
           path="/lyric/:artist/:music"
           element={Cookies.get("sessionToken") ? <LyricPage /> : <Redirect />}
+        ></Route>
+        <Route
+          path="/profile/create-playlist"
+          element={
+            Cookies.get("sessionToken") ? <CreatePlaylistPage /> : <Redirect />
+          }
+        ></Route>
+        <Route
+          path="/profile/playlists"
+          element={
+            Cookies.get("sessionToken") ? <PlaylistsPage /> : <Redirect />
+          }
+        ></Route>
+        <Route
+          path="/learn"
+          element={Cookies.get("sessionToken") ? <LearnPage /> : <Redirect />}
+        ></Route>
+        <Route
+          path="/hotspot"
+          element={Cookies.get("sessionToken") ? <HotspotPage /> : <Redirect />}
         ></Route>
       </Routes>
     </BrowserRouter>

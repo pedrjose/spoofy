@@ -13,6 +13,7 @@ import translate from "../../../public/logo/translate.png";
 import brain from "../../../public/logo/brain.png";
 import download from "../../../public/logo/download.png";
 import search from "../../../public/logo/search.png";
+import save from "../../../public/logo/save.png";
 import explicit from "../../../public/logo/explicit.png";
 
 export function LyricPage() {
@@ -53,7 +54,9 @@ export function LyricPage() {
     const downloadWindow = window.open("", "", "width=800", "height=600");
 
     downloadWindow.document.write("<html><head>");
-    downloadWindow.document.write("<title>Spoofy - Baixar Lyric</title></head>");
+    downloadWindow.document.write(
+      "<title>Spoofy - Baixar Lyric</title></head>"
+    );
     downloadWindow.document.write("<body>");
     downloadWindow.document.write(lyricDownload);
     downloadWindow.document.write("</body></html>");
@@ -110,9 +113,12 @@ export function LyricPage() {
                 className="icon-buttons"
               />
             </button>
-            <button>
-              <img src={brain} alt="Learn Button" className="icon-buttons" />
-            </button>
+            <a href="/learn" target="_blank">
+              <button>
+                <img src={brain} alt="Learn Button" className="icon-buttons" />
+              </button>
+            </a>
+
             <button onClick={() => downloadLyric()}>
               <img
                 src={download}

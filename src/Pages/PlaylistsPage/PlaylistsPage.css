@@ -1,0 +1,9 @@
+.section-playlist-settings {
+  height: 100vh;
+  background-color: #ab1f65;
+  display: flex;
+  overflow: auto;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}

@@ -48,13 +48,17 @@ export function LoginModal() {
 
     setSolvingPromise(true);
     const login = await initSession(email, password);
+    console.log(login.response);
     setSolvingPromise(false);
 
     if (login.error) {
       setPromiseError(login);
     } else {
       setPromiseError({ error: false, message: "" });
-      Cookies.set("sessionToken", login.response);
+      Cookies.set("sessionToken", login.response.token.token);
+      Cookies.set("profileAvatar", login.response.avatar);
+      Cookies.set("profileEmail", login.response.email);
+      Cookies.set("profileId", login.response.userId);
       Cookies.set("logged", "1");
       navigate("/");
     }

@@ -4,8 +4,13 @@ export function SearchDesign() {
   return (
     <>
       <span className="title-container">
-        <h2 className="title">🎼 Bem-vindo ao Spoofy. 🎶</h2>
-        <h3 className="title">Busque uma música e comece a aprender!</h3>
+        <h2 className="title">
+          {" "}
+          Fala, <i>Spoofer</i>! Bem-vindo à nossa plataforma. 😛🎶
+        </h2>
+        <h3 className="title">
+          Busque uma música internacional e comece a aprender! 🎼🧠
+        </h3>
       </span>
     </>
   );

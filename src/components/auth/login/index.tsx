@@ -1,9 +1,14 @@
 import { useState } from "react";
-import { ChevronRight, Eye, EyeOff, Music } from "lucide-react";
+import { ChevronRight, Eye, EyeOff, Loader2, Music } from "lucide-react";
 import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { joiResolver } from "@hookform/resolvers/joi";
 import { schema } from "./schema";
+import { useMutation } from "@tanstack/react-query";
+import { api } from "../../../services/axios-config/api";
+import { useAuthContext } from "../../../context/auth/AuthContext";
+import { useNavigate } from "react-router-dom";
+import { customToast } from "../../customToast/customToast";
 
 interface IFormLogin {
   email: string;
@@ -15,7 +20,9 @@ export const Login = () => {
   const form = useForm<IFormLogin>({
     resolver: joiResolver(schema),
   });
+  const navigate = useNavigate();
 
+  const { setAuthToken } = useAuthContext();
   const {
     formState: { errors },
     handleSubmit,
@@ -23,9 +30,19 @@ export const Login = () => {
     watch,
   } = form;
 
-  const submit = (values: IFormLogin) => {
-    console.log(values);
-  };
+  const { mutateAsync, isPending } = useMutation({
+    mutationFn: async (values: IFormLogin) => {
+      const response = await api.post("user/login", values);
+      setAuthToken(response.data.jwt);
+    },
+    onSuccess: () => {
+      navigate("/home");
+    },
+    onError: () =>
+      customToast({ msg: "Erro ao tentar fazer login", type: "error" }),
+  });
+
+  const submit = (values: IFormLogin) => mutateAsync(values);
 
   return (
     <div className="flex justify-center items-center h-dvh bg-slate-900">
@@ -45,10 +62,11 @@ export const Login = () => {
           <div className="mb-4">
             <input
               type="text"
+              disabled={isPending}
               placeholder="Email"
               value={watch("email")}
               {...register("email")}
-              className="w-full text-gray-950 rounded-lg border-1 border-[#4ADE80]  p-3 text-white placeholder-gray-400 focus:border-[#4ADE80] focus:outline-none focus:ring-2 focus:ring-[#4ADE80]"
+              className="w-full text-gray-950 rounded-lg border-1 border-[#4ADE80]  p-3  placeholder-gray-400 focus:border-[#4ADE80] focus:outline-none focus:ring-2 focus:ring-[#4ADE80] disabled:opacity-50 disabled:cursor-not-allowed"
             />
             {errors.email && (
               <div className="p-1">
@@ -57,18 +75,20 @@ export const Login = () => {
             )}
           </div>
 
-          <div className="mb-4 relative">
+          <div className="relative">
             <input
               type={showPassword ? "text" : "password"}
               placeholder="Password"
+              disabled={isPending}
               value={watch("password")}
               {...register("password")}
-              className="w-full rounded-lg text-gray-950 border-1 border-[#4ADE80]  p-3 text-white placeholder-gray-400 focus:border-[#4ADE80] focus:outline-none focus:ring-2 focus:ring-[#4ADE80]"
+              className="w-full rounded-lg text-gray-950 border-1 border-[#4ADE80]  p-3  placeholder-gray-400 focus:border-[#4ADE80] focus:outline-none focus:ring-2 focus:ring-[#4ADE80] disabled:opacity-50 disabled:cursor-not-allowed"
             />
             <button
               type="button"
+              disabled={isPending}
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 focus:outline-none"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {showPassword ? (
                 <EyeOff className="h-5 w-5" />
@@ -77,13 +97,23 @@ export const Login = () => {
               )}
             </button>
           </div>
+          {errors.password && (
+            <div className="p-1 mb-4">
+              <p className="text-red-500 ">{errors.password.message}</p>
+            </div>
+          )}
 
-          <div>
+          <div className="mt-9">
             <button
               type="submit"
-              className="w-full rounded-lg bg-[#4ADE80] p-3 text-lg font-semibold text-white transition-colors hover:bg-[#22c55e] focus:outline-none focus:ring-2 focus:ring-[#4ADE80] focus:ring-offset-2 focus:ring-offset-[#1E293B]"
+              disabled={isPending}
+              className="w-full rounded-lg bg-[#4ADE80] p-3 text-lg font-semibold text-white transition-colors hover:bg-[#22c55e] focus:outline-none focus:ring-2 focus:ring-[#4ADE80] focus:ring-offset-2 focus:ring-offset-[#1E293B] disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Login
+              {isPending ? (
+                <Loader2 className="w-5 h-5 animate-spin mx-auto" />
+              ) : (
+                "Login"
+              )}
             </button>
           </div>
 

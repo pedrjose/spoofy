@@ -4,7 +4,7 @@ import { errorInterceptor } from "./interceptores/errorInterceptor";
 import { requestInterceptor } from "./interceptores/requesteInterceptor";
 
 export const api = axios.create({
-  baseURL: "https://spoofy-api.onrender.com/",
+  baseURL: "http://localhost:3000/api/v1/",
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",

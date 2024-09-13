@@ -9,15 +9,12 @@ import { api } from "../../../services/axios-config/api";
 import { useAuthContext } from "../../../context/auth/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { customToast } from "../../customToast/customToast";
-
-interface IFormLogin {
-  email: string;
-  password: string;
-}
+import { ILoginRequest } from "./services/types";
+import { LoginService } from "./services/loginService.service";
 
 export const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const form = useForm<IFormLogin>({
+  const form = useForm<ILoginRequest>({
     resolver: joiResolver(schema),
   });
   const navigate = useNavigate();
@@ -31,9 +28,9 @@ export const Login = () => {
   } = form;
 
   const { mutateAsync, isPending } = useMutation({
-    mutationFn: async (values: IFormLogin) => {
-      const response = await api.post("user/login", values);
-      setAuthToken(response.data.jwt);
+    mutationFn: async (values: ILoginRequest) => {
+      const response = await LoginService.login(values);
+      setAuthToken(response.data.token);
     },
     onSuccess: () => {
       navigate("/home");
@@ -42,22 +39,23 @@ export const Login = () => {
       customToast({ msg: "Erro ao tentar fazer login", type: "error" }),
   });
 
-  const submit = (values: IFormLogin) => mutateAsync(values);
+  const submit = (values: ILoginRequest) => mutateAsync(values);
 
   return (
-    <div className="flex justify-center items-center h-dvh bg-slate-900">
+    <div className="flex justify-center items-center flex-col h-dvh bg-slate-900">
+      <div className="mb-8 flex justify-center items-center">
+        <h2 className="text-5xl font-bold text-white">Spoofy</h2>
+        <motion.div
+          animate={{ rotate: [0, 10, -10, 0] }}
+          transition={{ repeat: Infinity, duration: 2 }}
+        >
+          <Music className="h-16 w-16 text-[#4ADE80]" />
+        </motion.div>
+      </div>
+
       <form onSubmit={handleSubmit(submit)}>
-        <div className="max-w-md rounded-2xl bg-[#1E293B] p-8 shadow-xl">
-          <motion.div
-            className="mb-8 flex justify-center"
-            animate={{ rotate: [0, 10, -10, 0] }}
-            transition={{ repeat: Infinity, duration: 2 }}
-          >
-            <Music className="h-16 w-16 text-[#4ADE80]" />
-          </motion.div>
-          <h2 className="mb-6  text-3xl font-bold text-white">
-            Login to Your Account
-          </h2>
+        <div className="md:w-[500px] rounded-2xl bg-[#1E293B] p-8 shadow-xl">
+          <h2 className="mb-6  text-3xl font-bold text-white">Login</h2>
 
           <div className="mb-4">
             <input
@@ -70,7 +68,7 @@ export const Login = () => {
             />
             {errors.email && (
               <div className="p-1">
-                <p className="text-red-500">{errors.email.message}</p>
+                <p className="text-red-500 text-sm">{errors.email.message}</p>
               </div>
             )}
           </div>
@@ -99,7 +97,7 @@ export const Login = () => {
           </div>
           {errors.password && (
             <div className="p-1 mb-4">
-              <p className="text-red-500 ">{errors.password.message}</p>
+              <p className="text-red-500 text-sm">{errors.password.message}</p>
             </div>
           )}
 
@@ -112,21 +110,22 @@ export const Login = () => {
               {isPending ? (
                 <Loader2 className="w-5 h-5 animate-spin mx-auto" />
               ) : (
-                "Login"
+                "Entrar"
               )}
             </button>
           </div>
 
           <div className="mt-6 flex items-center justify-center space-x-2 text-sm text-gray-400">
-            <span>Don't have an account?</span>
+            <span>Não tem uma conta?</span>
             <motion.a
-              href="#"
-              className="font-semibold text-[#4ADE80] hover:underline"
+              style={{ pointerEvents: isPending ? "none" : "auto" }}
+              className="font-semibold text-[#4ADE80] hover:underline flex  items-center justify-center"
               whileHover={{ scale: 1.1 }}
+              onClick={() => navigate("register")}
             >
-              Sign up
+              Inscrever-se
               <motion.span
-                className="ml-1 inline-block"
+                className="ml-1 "
                 animate={{ x: [0, 5, 0] }}
                 transition={{ repeat: Infinity, duration: 1 }}
               >

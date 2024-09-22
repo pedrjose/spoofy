@@ -5,7 +5,6 @@ import { useForm } from "react-hook-form";
 import { joiResolver } from "@hookform/resolvers/joi";
 import { schema } from "./schema";
 import { useMutation } from "@tanstack/react-query";
-import { api } from "../../../services/axios-config/api";
 import { useAuthContext } from "../../../context/auth/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { customToast } from "../../customToast/customToast";
@@ -118,7 +117,10 @@ export const Login = () => {
           <div className="mt-6 flex items-center justify-center space-x-2 text-sm text-gray-400">
             <span>Não tem uma conta?</span>
             <motion.a
-              style={{ pointerEvents: isPending ? "none" : "auto" }}
+              style={{
+                pointerEvents: isPending ? "none" : "auto",
+                cursor: "pointer",
+              }}
               className="font-semibold text-[#4ADE80] hover:underline flex  items-center justify-center"
               whileHover={{ scale: 1.1 }}
               onClick={() => navigate("register")}

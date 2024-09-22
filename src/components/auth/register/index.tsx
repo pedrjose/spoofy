@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { customToast } from "../../customToast/customToast";
 import { RegisterService } from "./services/registerService.service";
 import { IRegisterRequest } from "./services/types";
+import { IErrorResponse } from "../../../types/errorResponse";
 
 export const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -31,14 +32,24 @@ export const Register = () => {
     mutationFn: async (values: IRegisterRequest) => {
       await RegisterService.register(values);
     },
+    onError: (error: IErrorResponse) => {
+      if (error.response?.data?.errors) {
+        error.response.data.errors.forEach((erro) => {
+          customToast({
+            msg: erro.message || "Erro ao tentar criar conta",
+            type: "error",
+          });
+        });
+      } else {
+        customToast({
+          msg: "Ocorreu um erro inesperado",
+          type: "error",
+        });
+      }
+    },
     onSuccess: () => {
       navigate("/login");
     },
-    onError: () =>
-      customToast({
-        msg: "Erro ao tentar criar conta",
-        type: "error",
-      }),
   });
 
   const submit = (values: IRegisterRequest) => mutateAsync(values);
@@ -156,7 +167,10 @@ export const Register = () => {
           <div className="mt-6 flex items-center justify-center space-x-2 text-sm text-gray-400">
             <span>Já tem uma conta?</span>
             <motion.a
-              style={{ pointerEvents: isPending ? "none" : "auto" }}
+              style={{
+                pointerEvents: isPending ? "none" : "auto",
+                cursor: "pointer",
+              }}
               className="font-semibold text-[#4ADE80] hover:underline flex  items-center justify-center"
               whileHover={{ scale: 1.1 }}
               onClick={() => navigate("/")}

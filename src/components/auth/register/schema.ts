@@ -1,9 +1,10 @@
 import Joi from "joi";
-import { IFormRegister } from ".";
+import { IRegisterRequest } from "./services/types";
 
-export const schema = Joi.object<IFormRegister>({
-  name: Joi.string().required().messages({
+export const schema = Joi.object<IRegisterRequest>({
+  name: Joi.string().min(5).required().messages({
     "string.empty": "Campo obrigatório",
+    "string.min": "O nome deve ter no mínimo 5 letras",
   }),
   email: Joi.string()
     .email({ tlds: { allow: false } })

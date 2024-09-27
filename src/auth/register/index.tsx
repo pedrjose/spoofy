@@ -6,10 +6,10 @@ import { joiResolver } from "@hookform/resolvers/joi";
 import { schema } from "./schema";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-import { customToast } from "../../customToast/customToast";
+import { customToast } from "../../components/customToast/customToast";
 import { RegisterService } from "./services/registerService.service";
 import { IRegisterRequest } from "./services/types";
-import { IErrorResponse } from "../../../types/errorResponse";
+import { IErrorResponse } from "../../@types/errorResponse";
 
 export const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -55,7 +55,7 @@ export const Register = () => {
   const submit = (values: IRegisterRequest) => mutateAsync(values);
 
   return (
-    <div className="flex justify-center items-center h-dvh bg-slate-900">
+    <div className="flex justify-center items-center h-dvh ">
       <form onSubmit={handleSubmit(submit)}>
         <div className="md:w-[500px] rounded-2xl bg-[#1E293B] p-8 shadow-xl">
           <h2 className="mb-6 text-3xl font-bold text-white">cadastro</h2>

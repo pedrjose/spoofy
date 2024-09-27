@@ -1,4 +1,4 @@
-import { api } from "../../../../services/axios-config/api";
+import { api } from "../../../services/axios-config/api";
 import { IRegisterRequest, IRegisterResponse } from "./types";
 
 export class RegisterService {

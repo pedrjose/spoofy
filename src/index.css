@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  @apply bg-slate-900;
+}
+
 input {
   @apply bg-white text-gray-950  text-base;
 }

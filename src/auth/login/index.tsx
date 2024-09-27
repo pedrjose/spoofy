@@ -5,9 +5,9 @@ import { useForm } from "react-hook-form";
 import { joiResolver } from "@hookform/resolvers/joi";
 import { schema } from "./schema";
 import { useMutation } from "@tanstack/react-query";
-import { useAuthContext } from "../../../context/auth/AuthContext";
+import { useAuthContext } from "../../context/auth/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { customToast } from "../../customToast/customToast";
+import { customToast } from "../../components/customToast/customToast";
 import { ILoginRequest } from "./services/types";
 import { LoginService } from "./services/loginService.service";
 
@@ -41,7 +41,7 @@ export const Login = () => {
   const submit = (values: ILoginRequest) => mutateAsync(values);
 
   return (
-    <div className="flex justify-center items-center flex-col h-dvh bg-slate-900">
+    <div className="flex justify-center items-center flex-col h-dvh ">
       <div className="mb-8 flex justify-center items-center">
         <h2 className="text-5xl font-bold text-white">Spoofy</h2>
         <motion.div

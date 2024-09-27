@@ -20,7 +20,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   useEffect(() => {
     if (authToken) return localStorage.setItem("authToken", authToken);
 
-    localStorage.removeItem("authToken");
+    return localStorage.removeItem("authToken");
   }, [authToken]);
 
   return (

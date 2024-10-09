@@ -2,7 +2,6 @@ import { Login } from "./auth/login";
 import { Register } from "./auth/register";
 import { Route, Routes } from "react-router";
 import "react-toastify/dist/ReactToastify.css";
-import PrivateRoute from "./auth/privateRouter";
 import { ToastContainer } from "react-toastify";
 import { BrowserRouter } from "react-router-dom";
 import { queryClient } from "./constants/queryClient";
@@ -20,11 +19,11 @@ function App() {
             <Route path="/" element={<Login />} />
             <Route path="/register" element={<Register />} />
 
-            <Route element={<PrivateRoute />}>
+            {/* <Route element={<PrivateRoute />}> */}
               <Route element={<LayoutDefault />}>
                 <Route path="/home" element={<Home />} />
               </Route>
-            </Route>
+            {/* </Route> */}
           </Routes>
         </BrowserRouter>
         <ToastContainer />

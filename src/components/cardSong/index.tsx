@@ -1,4 +1,5 @@
 import { Lock, Music, Star } from "lucide-react";
+import { motion } from "framer-motion";
 
 interface ICardSong {
   songs: any[];
@@ -8,9 +9,13 @@ export const CardSong = ({ songs }: ICardSong) => {
   return (
     <>
       {songs.map((song) => (
-        <div
-          key={song.name} //TODO: mudar key para p ID da musica
-          className={`w-[260px] bg-[#232d3df4] rounded-lg p-3 transition-transform duration-300 ease-in-out transform hover:scale-[1.02]`}
+        <motion.div
+          key={song.id}
+          className={`relative w-[260px] bg-[#232d3df4] rounded-lg p-3`}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{
+            borderRadius: "100%",
+          }}
         >
           <div className="w-full h-40 bg-[#0F172A] rounded-md mb-1 flex items-center justify-center">
             <Music className="w-10 h-10 text-[#4ADE80]" />
@@ -36,7 +41,7 @@ export const CardSong = ({ songs }: ICardSong) => {
               <Star className="w-6 h-6 text-yellow-400 fill-current" />
             </div>
           )}
-        </div>
+        </motion.div>
       ))}
     </>
   );

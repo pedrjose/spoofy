@@ -3,8 +3,8 @@ import { NavBar } from "../../components/navbar";
 
 export const LayoutDefault = () => {
   return (
-    <div className="flex flex-col h-dvh bg-gray-900 text-slate-200">
-      <header className="pt-1">
+    <div className="flex flex-col h-dvh bg-gray-900 text-slate-200 ">
+      <header className="p-1">
         <NavBar />
       </header>
 

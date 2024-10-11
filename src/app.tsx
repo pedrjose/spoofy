@@ -9,6 +9,7 @@ import { AuthProvider } from "./context/auth/AuthContext";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { LayoutDefault } from "./shared/layouts/layoutDefault";
 import { Home } from "./pages/home";
+import PrivateRoute from "./auth/privateRouter";
 
 function App() {
   return (
@@ -19,11 +20,11 @@ function App() {
             <Route path="/" element={<Login />} />
             <Route path="/register" element={<Register />} />
 
-            {/* <Route element={<PrivateRoute />}> */}
+            <Route element={<PrivateRoute />}>
               <Route element={<LayoutDefault />}>
                 <Route path="/home" element={<Home />} />
               </Route>
-            {/* </Route> */}
+            </Route>
           </Routes>
         </BrowserRouter>
         <ToastContainer />

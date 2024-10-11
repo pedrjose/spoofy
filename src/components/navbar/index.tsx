@@ -1,11 +1,35 @@
 import { Search, UserRound, House, AlignJustify, X } from "lucide-react";
-import { useReducer, useRef } from "react";
+import { useReducer, useRef, useState } from "react";
 import { DropdownMenu } from "./components/dropdownMenu";
+import { useQuery } from "@tanstack/react-query";
+import { NavBarServices } from "./services/index.service";
+import { customToast } from "../customToast/customToast";
+interface INavBar {
+  setSearchData: (data: any) => void;
+  setIsLoadingSearchData: (isLoading: boolean) => void;
+}
 
-export const NavBar = () => {
+export const NavBar = ({ setSearchData, setIsLoadingSearchData }: INavBar) => {
   const [openSideMenu, toggleOpenSideMenu] = useReducer((prev) => !prev, false);
   const [openUserMenu, toggleOpenUserMenu] = useReducer((prev) => !prev, false);
   const sideMenuRef = useRef<HTMLDivElement>(null);
+  const [inputSearch, setInputSearch] = useState("");
+
+  const { isLoading } = useQuery({
+    queryKey: ["search", inputSearch],
+    queryFn: async () => {
+      try {
+        const data = await NavBarServices.searchMusic({
+          music: inputSearch,
+        });
+
+        setSearchData(data ?? []);
+        setIsLoadingSearchData(isLoading);
+      } catch (error) {
+        customToast({ msg: "Musica não encontrada", type: "error" });
+      }
+    },
+  });
 
   const handleClickOutside = (event: any) => {
     if (sideMenuRef.current && !sideMenuRef.current.contains(event.target)) {
@@ -31,6 +55,7 @@ export const NavBar = () => {
             <input
               type="text"
               placeholder="Procure músicas ou desafios"
+              onChange={(e) => setInputSearch(e.target.value)}
               className="w-full bg-[#2c3444] text-gray-400 h-10 rounded-full py-2 px-4 pl-10 text-sm brightness-100 hover:brightness-125 transition ease-in-out"
             />
             <Search className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
@@ -66,11 +91,7 @@ export const NavBar = () => {
         }`}
       >
         <div className="p-4 overflow-auto">
-          <p className="text-white whitespace-normal break-words">
-            {
-              "rewonutrgvurenvierjnvnvrruvrriiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiinnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnwllllllllllllnfvneirjnn"
-            }
-          </p>
+          <p className="text-white whitespace-normal break-words">{}</p>
         </div>
       </div>
     </>

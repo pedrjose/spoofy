@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { LogoutServices } from "../services/index.service";
+import { NavBarServices } from "../services/index.service";
 import { useAuthContext } from "../../../context/auth/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { customToast } from "../../customToast/customToast";
@@ -11,11 +11,10 @@ export const DropdownMenu = () => {
 
   const { mutateAsync, isPending } = useMutation({
     mutationFn: async () => {
-      const response = await LogoutServices.logout();
-      setAuthToken("");
-      console.log("res:", response);
+      await NavBarServices.logout();
     },
     onSuccess: () => {
+      setAuthToken("");
       navigate("/");
     },
     onError: () =>
@@ -38,6 +37,7 @@ export const DropdownMenu = () => {
             {"Configurações"}
           </a>
         </li>
+
         <li>
           <a
             onClick={() => mutateAsync()}

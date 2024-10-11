@@ -3,7 +3,7 @@ import { api } from "../axios-config/api";
 export const refreshToken = async () => {
   try {
     const response = await api.post(
-      "/auth/refresh-token",
+      "/auth/refresh",
       {},
       { withCredentials: true }
     );

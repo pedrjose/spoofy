@@ -6,6 +6,7 @@ import { HomeServices } from "./services/index.service";
 import { customToast } from "../../components/customToast/customToast";
 import { Spinner } from "../../components/Spinner";
 import { useOutletContext } from "react-router-dom";
+import { NotFound } from "../../components/notFound";
 
 export const Home = () => {
   const { navBarData, isLoading: isLoadingSearch } = useOutletContext<any>();
@@ -24,7 +25,7 @@ export const Home = () => {
   });
 
   return (
-    <div className="flex h-full gap-2">
+    <div className="flex h-full gap-1">
       <aside className="w-80 bg-[#56595e30] hidden md:block text-white p-4 rounded-lg">
         <h2 className="text-lg font-bold">Explorar Músicas</h2>
       </aside>
@@ -44,10 +45,12 @@ export const Home = () => {
           <div className="flex justify-center items-center h-64">
             <Spinner />
           </div>
-        ) : (
+        ) : data || navBarData ? (
           <div className="flex flex-row flex-wrap gap-6 md:justify-start justify-center">
-            <CardSong songs={data || navBarData} />
+            <CardSong songs={(data || navBarData) ?? []} />
           </div>
+        ) : (
+          <NotFound />
         )}
       </main>
     </div>

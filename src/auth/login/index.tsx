@@ -41,8 +41,8 @@ export const Login = () => {
   const submit = (values: ILoginRequest) => mutateAsync(values);
 
   return (
-    <div className="flex justify-center items-center flex-col h-dvh ">
-      <div className="mb-8 flex justify-center items-center">
+    <div className="flex justify-center items-center flex-col h-dvh w-full">
+      <div className="mb-8 flex justify-center items-center ">
         <h2 className="text-5xl font-bold text-white">Spoofy</h2>
         <motion.div
           animate={{ rotate: [0, 10, -10, 0] }}
@@ -52,8 +52,11 @@ export const Login = () => {
         </motion.div>
       </div>
 
-      <form onSubmit={handleSubmit(submit)}>
-        <div className="md:w-[500px] rounded-2xl bg-[#1E293B] p-8 shadow-xl">
+      <form
+        onSubmit={handleSubmit(submit)}
+        className="w-full flex justify-center items-center p-2"
+      >
+        <div className="w-[400px] md:w-[500px] rounded-xl bg-[#1E293B] px-3 py-8 shadow-xl">
           <h2 className="mb-6  text-3xl font-bold text-white">Login</h2>
 
           <div className="mb-4">

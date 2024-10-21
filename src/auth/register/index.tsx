@@ -55,10 +55,16 @@ export const Register = () => {
   const submit = (values: IRegisterRequest) => mutateAsync(values);
 
   return (
-    <div className="flex justify-center items-center h-dvh ">
-      <form onSubmit={handleSubmit(submit)}>
-        <div className="md:w-[500px] rounded-2xl bg-[#1E293B] p-8 shadow-xl">
-          <h2 className="mb-6 text-3xl font-bold text-white">cadastro</h2>
+    <div className="flex justify-center items-center h-dvh">
+      <form
+        onSubmit={handleSubmit(submit)}
+        className="w-full flex justify-center items-center p-3"
+      >
+        <div className="w-full md:w-[500px] rounded-xl bg-[#1E293B] px-3 py-5 shadow-xl">
+          <h2 className="text-3xl font-bold text-white">Cadastro</h2>
+          <p className="mb-5 text-slate-400">
+            Preencha os dados abaixo para se cadastrar
+          </p>
 
           <div className="mb-3">
             <input

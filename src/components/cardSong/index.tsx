@@ -1,11 +1,14 @@
 import { motion } from "framer-motion";
 import { Music as MusicData } from "./types";
+import { useNavigate } from "react-router-dom";
+import { learningPageRoutes } from "../../pages/learningPage/utils/routes";
 
 interface ICardSong {
   songs: MusicData[];
 }
 
 export const CardSong = ({ songs }: ICardSong) => {
+  const navigate = useNavigate();
   return (
     <>
       {songs.map((song) => (
@@ -13,6 +16,7 @@ export const CardSong = ({ songs }: ICardSong) => {
           key={song.id}
           className="relative w-[260px] bg-[#232d3df4] rounded-lg p-3 flex flex-col justify-between"
           whileHover={{ scale: 1.02 }}
+          onClick={() => navigate(learningPageRoutes.learningPage(song.id))}
         >
           <div className="w-full h-49 bg-[#0F172A] rounded-md mb-1 flex items-center justify-center overflow-hidden ">
             <img

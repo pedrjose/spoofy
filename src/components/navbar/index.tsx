@@ -1,9 +1,10 @@
-import { Search, UserRound, House, AlignJustify, X } from "lucide-react";
+import { Search, UserRound, AlignJustify, X } from "lucide-react";
 import { useReducer, useRef, useState } from "react";
-import { DropdownMenu } from "./components/dropdownMenu";
+import { DropdownMenu } from "./components/dropDownMenu/dropdownMenu";
 import { useQuery } from "@tanstack/react-query";
 import { NavBarServices } from "./services/index.service";
 import { customToast } from "../customToast/customToast";
+import { SideBar } from "./components/sideBarMenu";
 interface INavBar {
   setSearchData: (data: any) => void;
   setIsLoadingSearchData: (isLoading: boolean) => void;
@@ -39,26 +40,20 @@ export const NavBar = ({ setSearchData, setIsLoadingSearchData }: INavBar) => {
 
   return (
     <>
-      <div className="flex flex-row justify-between items-center md:px-5 sm:px-2 h-10">
-        <div className="text-white text-xl font-bold hidden sm:block">
+      <div className="flex flex-row justify-between items-center px-2 h-[50px]">
+        <div className="text-white text-xl font-bold hidden sm:block md:pl-[10px]">
           spoofy
         </div>
 
-        <div className="flex flex-row items-center gap-4 w-full sm:max-w-md md:w-1/3">
-          <div className="bg-[#2c3444] w-12 h-10 hidden sm:flex items-center justify-center rounded-full p-1">
-            <button className="focus:outline-none">
-              <House className="w-6 h-6" />
-            </button>
-          </div>
-
-          <div className="relative w-full">
+        <div className="flex flex-row items-center gap-4 w-full  sm:max-w-md ">
+          <div className="relative w-full flex justify-start items-center">
             <input
               type="text"
-              placeholder="Procure músicas ou desafios"
+              placeholder="Procurar músicas"
               onChange={(e) => setInputSearch(e.target.value)}
-              className="w-full bg-[#2c3444] text-gray-400 h-10 rounded-full py-2 px-4 pl-10 text-sm brightness-100 hover:brightness-125 transition ease-in-out"
+              className="w-full bg-[#2c3444]  text-gray-400 h-12 rounded-full px-3 pl-12 text-lg brightness-100 hover:brightness-125 transition ease-in-out"
             />
-            <Search className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
+            <Search className="absolute left-2  h-7 w-7 text-gray-400" />
           </div>
 
           <div className="block sm:hidden bg-[#2c3444] w-12 h-10 flex items-center justify-center rounded-full p-1">
@@ -68,9 +63,9 @@ export const NavBar = ({ setSearchData, setIsLoadingSearchData }: INavBar) => {
           </div>
         </div>
 
-        <div className="relative hidden sm:block">
+        <div className="relative hidden sm:block bg-[#2c3444] w-12 h-12 hidden sm:flex items-center justify-center rounded-full p-1">
           <button className="focus:outline-none" onClick={toggleOpenUserMenu}>
-            <UserRound className="w-6 h-6" color="#4ade80" />
+            <UserRound className="w-7 h-7" color="#4ade80" />
           </button>
 
           {openUserMenu && <DropdownMenu />}
@@ -90,9 +85,7 @@ export const NavBar = ({ setSearchData, setIsLoadingSearchData }: INavBar) => {
           openSideMenu ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <div className="p-4 overflow-auto">
-          <p className="text-white whitespace-normal break-words">{}</p>
-        </div>
+        <SideBar />
       </div>
     </>
   );

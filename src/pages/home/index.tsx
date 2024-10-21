@@ -45,7 +45,7 @@ export const Home = () => {
           <div className="flex justify-center items-center h-64">
             <Spinner />
           </div>
-        ) : data || navBarData ? (
+        ) : data ? (
           <div className="flex flex-row flex-wrap gap-6 md:justify-start justify-center">
             <CardSong songs={(data || navBarData) ?? []} />
           </div>

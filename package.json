@@ -14,6 +14,7 @@
     "@hookform/resolvers": "^3.9.0",
     "@tanstack/react-query": "^5.53.2",
     "axios": "^1.7.7",
+    "canvas-confetti": "^1.9.3",
     "framer-motion": "^11.3.31",
     "joi": "^17.13.3",
     "lucide-react": "^0.438.0",
@@ -26,6 +27,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",
+    "@types/canvas-confetti": "^1.6.4",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.1",

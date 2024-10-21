@@ -6,6 +6,10 @@ body {
   @apply bg-slate-900;
 }
 
+/* * {
+  @apply border-2;
+} */
+
 input {
   @apply bg-white text-gray-950  text-base;
 }

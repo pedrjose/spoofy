@@ -5,11 +5,14 @@ import { homeQueryKeys } from "./utils/queryKeys";
 import { HomeServices } from "./services/index.service";
 import { customToast } from "../../components/customToast/customToast";
 import { Spinner } from "../../components/Spinner";
-import { useOutletContext } from "react-router-dom";
 import { NotFound } from "../../components/notFound";
+import { NavBar } from "../../components/navbar";
+import { useState } from "react";
 
 export const Home = () => {
-  const { navBarData, isLoading: isLoadingSearch } = useOutletContext<any>();
+  const [searchData, setSearchData] = useState();
+  const [isLoadingSearchData, setIsLoadingSearchData] =
+    useState<boolean>(false);
 
   const { isLoading, data } = useQuery({
     queryKey: homeQueryKeys.card_song,
@@ -25,34 +28,43 @@ export const Home = () => {
   });
 
   return (
-    <div className="flex h-full gap-1">
-      <aside className="w-80 bg-[#56595e30] hidden md:block text-white p-4 rounded-lg">
-        <h2 className="text-lg font-bold">Explorar Músicas</h2>
-      </aside>
+    <>
+      <header className="p-1">
+        <NavBar
+          setSearchData={setSearchData}
+          setIsLoadingSearchData={setIsLoadingSearchData}
+        />
+      </header>
 
-      <main className="flex-1 bg-[#56595e30] p-2 rounded-lg overflow-y-auto max-h-[calc(100vh-64px)] scrollbar-thin scrollbar-thumb-[#4ade8086] scrollbar-track-[#2c3444] mr-1">
-        <div className="my-7 flex flex-row justify-between items-center pr-1">
-          <h1 className="text-2xl font-bold mb-4 uppercase tracking-wide">
-            Escolha Sua Próxima Música
-          </h1>
+      <div className="flex gap-1 p-2" style={{ height: "calc(100vh - 66px)" }}>
+        <aside className="w-80 bg-[#56595e30] hidden md:block text-white p-4 rounded-lg">
+          <h2 className="text-lg font-bold">{"Explorar Músicas"}</h2>
+        </aside>
 
-          <button>
-            <ListFilter className="w-[100px]" />
-          </button>
-        </div>
+        <main className="flex-1 bg-[#56595e30] p-2 rounded-lg overflow-y-auto scrollbar-thin scrollbar-thumb-[#4ade8086] scrollbar-track-[#2c3444] mr-1 text-white">
+          <div className="my-7 flex flex-row justify-between items-center pr-1">
+            <h1 className="text-2xl font-bold mb-4 uppercase tracking-wide">
+              {"Escolha Sua Próxima Música"}
+            </h1>
 
-        {isLoading || isLoadingSearch ? (
-          <div className="flex justify-center items-center h-64">
-            <Spinner />
+            <button>
+              <ListFilter className="w-[100px]" />
+            </button>
           </div>
-        ) : data ? (
-          <div className="flex flex-row flex-wrap gap-6 md:justify-start justify-center">
-            <CardSong songs={(data || navBarData) ?? []} />
-          </div>
-        ) : (
-          <NotFound />
-        )}
-      </main>
-    </div>
+
+          {isLoading || isLoadingSearchData ? (
+            <div className="flex justify-center items-center h-64">
+              <Spinner />
+            </div>
+          ) : data ? (
+            <div className="flex flex-row flex-wrap gap-6 md:justify-start justify-center">
+              <CardSong songs={(data || searchData) ?? []} />
+            </div>
+          ) : (
+            <NotFound />
+          )}
+        </main>
+      </div>
+    </>
   );
 };

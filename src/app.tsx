@@ -7,7 +7,6 @@ import { BrowserRouter } from "react-router-dom";
 import { queryClient } from "./constants/queryClient";
 import { AuthProvider } from "./context/auth/AuthContext";
 import { QueryClientProvider } from "@tanstack/react-query";
-import { LayoutDefault } from "./shared/layouts/layoutDefault";
 import { Home } from "./pages/home";
 import PrivateRoute from "./auth/privateRouter";
 import { LanguageGame } from "./pages/learningPage";
@@ -22,10 +21,8 @@ function App() {
             <Route path="/register" element={<Register />} />
 
             <Route element={<PrivateRoute />}>
-              <Route element={<LayoutDefault />}>
-                <Route path="/home" element={<Home />} />
-                <Route path="learningPage/:id" element={<LanguageGame />} />
-              </Route>
+              <Route path="/home" element={<Home />} />
+              <Route path="learningPage/:id" element={<LanguageGame />} />
             </Route>
           </Routes>
         </BrowserRouter>

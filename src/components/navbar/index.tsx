@@ -1,36 +1,17 @@
-import { Search, UserRound, AlignJustify, X } from "lucide-react";
+import { UserRound, AlignJustify, X } from "lucide-react";
 import { useReducer, useRef, useState } from "react";
 import { DropdownMenu } from "./components/dropDownMenu/dropdownMenu";
-import { useQuery } from "@tanstack/react-query";
-import { NavBarServices } from "./services/index.service";
-import { customToast } from "../customToast/customToast";
 import { SideBar } from "./components/sideBarMenu";
+import { SearchSongs } from "./components/searchSongs";
 interface INavBar {
   setSearchData: (data: any) => void;
   setIsLoadingSearchData: (isLoading: boolean) => void;
 }
 
-export const NavBar = ({ setSearchData, setIsLoadingSearchData }: INavBar) => {
+export const NavBar = ({}: INavBar) => {
   const [openSideMenu, toggleOpenSideMenu] = useReducer((prev) => !prev, false);
   const [openUserMenu, toggleOpenUserMenu] = useReducer((prev) => !prev, false);
   const sideMenuRef = useRef<HTMLDivElement>(null);
-  const [inputSearch, setInputSearch] = useState("");
-
-  const { isLoading } = useQuery({
-    queryKey: ["search", inputSearch],
-    queryFn: async () => {
-      try {
-        const data = await NavBarServices.searchMusic({
-          music: inputSearch,
-        });
-
-        setSearchData(data ?? []);
-        setIsLoadingSearchData(isLoading);
-      } catch (error) {
-        customToast({ msg: "Musica não encontrada", type: "error" });
-      }
-    },
-  });
 
   const handleClickOutside = (event: any) => {
     if (sideMenuRef.current && !sideMenuRef.current.contains(event.target)) {
@@ -46,14 +27,8 @@ export const NavBar = ({ setSearchData, setIsLoadingSearchData }: INavBar) => {
         </div>
 
         <div className="flex flex-row items-center gap-4 w-full  sm:max-w-md ">
-          <div className="relative w-full flex justify-start items-center">
-            <input
-              type="text"
-              placeholder="Procurar músicas"
-              onChange={(e) => setInputSearch(e.target.value)}
-              className="w-full bg-[#2c3444]  text-gray-400 h-12 rounded-full px-3 pl-12 text-lg brightness-100 hover:brightness-125 transition ease-in-out"
-            />
-            <Search className="absolute left-2  h-7 w-7 text-gray-400" />
+          <div className="w-full">
+            <SearchSongs />
           </div>
 
           <div className="block sm:hidden bg-[#2c3444] w-12 h-10 flex items-center justify-center rounded-full p-1">

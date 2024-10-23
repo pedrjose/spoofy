@@ -8,6 +8,7 @@ import { Spinner } from "../../components/Spinner";
 import { NotFound } from "../../components/notFound";
 import { NavBar } from "../../components/navbar";
 import { useState } from "react";
+import { PlaylistSidebar } from "../../components/playlistSideBar";
 
 export const Home = () => {
   const [searchData, setSearchData] = useState();
@@ -37,8 +38,8 @@ export const Home = () => {
       </header>
 
       <div className="flex gap-1 p-2" style={{ height: "calc(100vh - 66px)" }}>
-        <aside className="w-80 bg-[#56595e30] hidden md:block text-white p-4 rounded-lg">
-          <h2 className="text-lg font-bold">{"Explorar Músicas"}</h2>
+        <aside className="w-80 hidden md:block text-white">
+          <PlaylistSidebar />
         </aside>
 
         <main className="flex-1 bg-[#56595e30] p-2 rounded-lg overflow-y-auto scrollbar-thin scrollbar-thumb-[#4ade8086] scrollbar-track-[#2c3444] mr-1 text-white">

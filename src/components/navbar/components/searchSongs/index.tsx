@@ -36,28 +36,28 @@ export const SearchSongs = () => {
     <div className="flex items-center bg-gray-800 rounded-3xl brightness-100 hover:brightness-125 transition ease-in-out p-1">
       <input
         type="text"
-        placeholder="música"
+        placeholder="Música"
         value={songName}
         onChange={(e) => setSongName(e.target.value)}
-        className="border-e-[#3e424a] border-e w-full h-10 pl-2 text-lg text-white bg-transparent focus:outline-none"
-        aria-label="música"
+        className="border-e-[#3e424a] border-e w-full h-9 pl-2 text-lg text-white text-center bg-transparent focus:outline-none"
+        aria-label="Música"
       />
 
       <div className="w-px bg-gray-700 my-1" />
 
       <input
         type="text"
-        placeholder="artista"
+        placeholder="Artista"
         value={artistName}
         onChange={(e) => setArtistName(e.target.value)}
-        className="w-full h-10 pl-2 text-lg text-white bg-transparent focus:outline-none"
-        aria-label="artista"
+        className="w-full h-9 pl-2 text-lg text-center text-white bg-transparent focus:outline-none"
+        aria-label="Artista"
       />
 
       <button
         onClick={handleSearch}
         disabled={!artistName || !songName || isPending}
-        className={`h-9 text-white px-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 
+        className={`h-9 text-white px-1 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 
     ${
       !artistName || !songName || isPending
         ? "cursor-not-allowed opacity-50"

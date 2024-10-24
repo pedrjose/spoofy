@@ -71,6 +71,7 @@ export const SearchSongs = ({
       />
 
       <button
+        title="Pesquisar"
         onClick={handleSearch}
         disabled={!artistName || !songName || isPending}
         className={`h-9 text-white px-1 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 

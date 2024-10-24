@@ -1,17 +1,16 @@
 import { X } from "lucide-react";
 import { useRef, useEffect } from "react";
-import { IPlaylist } from "./types";
 
 interface DeleteModalProps {
-  playlist: IPlaylist | null;
+  title: string;
   onCancel: () => void;
-  onDelete: (playlist: IPlaylist) => void;
+  onDelete: () => void;
 }
 
 export const DeleteModal = ({
-  playlist,
   onCancel,
   onDelete,
+  title,
 }: DeleteModalProps) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
@@ -31,8 +30,6 @@ export const DeleteModal = ({
     };
   }, [onCancel]);
 
-  if (!playlist) return null;
-
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
       <div
@@ -45,10 +42,8 @@ export const DeleteModal = ({
             <X className="h-4 w-4" />
           </button>
         </div>
-        <p className="mb-4">
-          Tem certeza que deseja excluir a playlist "{playlist.playlistName}"? Esta ação
-          não pode ser desfeita.
-        </p>
+        <p className="mb-4">{`Tem certeza que deseja excluir ${title}?
+            Esta ação não pode ser desfeita.`}</p>
         <div className="flex justify-end space-x-2">
           <button
             onClick={onCancel}
@@ -57,7 +52,7 @@ export const DeleteModal = ({
             Cancelar
           </button>
           <button
-            onClick={() => onDelete(playlist)}
+            onClick={onDelete}
             className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-md transition-colors duration-200"
           >
             Excluir

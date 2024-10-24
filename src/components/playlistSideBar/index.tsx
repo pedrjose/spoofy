@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { PlusCircle, Music, Trash2 } from "lucide-react";
+import { FolderPlus, Music, Trash2 } from "lucide-react";
 import { DeleteModal } from "./deleteModal";
 import { IPlaylist } from "./types";
 import { useMutation } from "@tanstack/react-query";
@@ -45,8 +45,27 @@ export const PlaylistSidebar = ({ playlists, refetch }: IPlaylistSideBar) => {
     },
   });
 
-  const deletePlaylist = (playlist: IPlaylist) => {
-    console.log(playlist);
+  const { isPending: isPendingDelete, mutateAsync: mutateAsyncDelete } =
+    useMutation({
+      mutationFn: async (playlistName: string) => {
+        const data = await PlaylistSideBarServices.delete(playlistName);
+        return data;
+      },
+      onError(error: IErrorResponse) {
+        const errorMessage = error.response?.data?.errors[0].message;
+        customToast({
+          msg: errorMessage || "Erro ao tentar deletar uma playlist",
+          type: "error",
+        });
+      },
+      onSuccess() {
+        refetch && refetch();
+      },
+    });
+
+  const deletePlaylist = () => {
+    if (!playlistToDelete?.playlistName) return;
+    mutateAsyncDelete(playlistToDelete?.playlistName);
     setPlaylistToDelete(null);
   };
 
@@ -55,16 +74,17 @@ export const PlaylistSidebar = ({ playlists, refetch }: IPlaylistSideBar) => {
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-xl font-bold">Suas Playlists</h2>
         <button
-          disabled={isPending}
+          disabled={isPending || isPendingDelete}
           onClick={() => setIsAddingPlaylist(true)}
-          className="p-2 bg-green-500 hover:bg-green-600 text-white rounded-full transition-colors duration-200"
+          className="p-2 bg-green-600 hover:bg-green-700 text-white rounded-full transition-colors duration-200"
           aria-label="Adicionar nova playlist"
+          title="Adicionar nova playlist"
         >
-          <PlusCircle className="h-5 w-5" />
+          <FolderPlus className="h-5 w-5" />
         </button>
       </div>
 
-      {isPending ? (
+      {isPending || isPendingDelete ? (
         <div className="flex justify-center items-center h-[500px] border border-gray-700 rounded-lg p-2">
           <Spinner />
         </div>
@@ -94,7 +114,7 @@ export const PlaylistSidebar = ({ playlists, refetch }: IPlaylistSideBar) => {
         <div className="mt-4 space-y-2">
           <input
             type="text"
-            disabled={isPending}
+            disabled={isPending || isPendingDelete}
             placeholder="Nome da playlist"
             value={newPlaylistName}
             onChange={(e) => setNewPlaylistName(e.target.value)}
@@ -102,7 +122,7 @@ export const PlaylistSidebar = ({ playlists, refetch }: IPlaylistSideBar) => {
           />
           <div className="flex gap-2">
             <button
-              disabled={isPending || !newPlaylistName}
+              disabled={isPending || isPendingDelete || !newPlaylistName}
               onClick={addPlaylist}
               className={`flex-1 px-4 py-2 rounded-md transition-colors duration-200 text-white ${
                 !newPlaylistName
@@ -114,7 +134,7 @@ export const PlaylistSidebar = ({ playlists, refetch }: IPlaylistSideBar) => {
             </button>
 
             <button
-              disabled={isPending}
+              disabled={isPending || isPendingDelete}
               onClick={() => setIsAddingPlaylist(false)}
               className="flex-1 px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-md transition-colors duration-200"
             >
@@ -126,7 +146,7 @@ export const PlaylistSidebar = ({ playlists, refetch }: IPlaylistSideBar) => {
 
       {playlistToDelete && (
         <DeleteModal
-          playlist={playlistToDelete}
+          title={`a playlist ${playlistToDelete.playlistName}`}
           onCancel={() => setPlaylistToDelete(null)}
           onDelete={deletePlaylist}
         />

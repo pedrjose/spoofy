@@ -3,8 +3,18 @@ import { Search } from "lucide-react";
 import { useState } from "react";
 import { NavBarServices } from "../../services/index.service";
 import { customToast } from "../../../customToast/customToast";
+import { ISearchDataType } from "../../services/type";
+import { IErrorResponse } from "../../../../@types/errorResponse";
 
-export const SearchSongs = () => {
+interface ISearchSongs {
+  setSearchData: (value: ISearchDataType | null) => void;
+  setIsLoadingSearchData: (isLoading: boolean) => void;
+}
+
+export const SearchSongs = ({
+  setSearchData,
+  setIsLoadingSearchData,
+}: ISearchSongs) => {
   const [songName, setSongName] = useState("");
   const [artistName, setArtistName] = useState("");
 
@@ -20,15 +30,21 @@ export const SearchSongs = () => {
       songName: string;
       artistName: string;
     }) => {
-      try {
-        const data = await NavBarServices.searchMusic({
-          music: songName,
-          artist: artistName,
-        });
-        return data;
-      } catch (error) {
-        customToast({ msg: "Musica não encontrada", type: "error" });
-      }
+      const data = await NavBarServices.searchMusic({
+        music: songName,
+        artist: artistName,
+      });
+
+      setSearchData(data);
+      setIsLoadingSearchData(isPending);
+      return data;
+    },
+    onError(error: IErrorResponse) {
+      const errorMessage = error.response?.data?.errors[0].message;
+      customToast({
+        msg: errorMessage || "Musica não encontrada",
+        type: "error",
+      });
     },
   });
 

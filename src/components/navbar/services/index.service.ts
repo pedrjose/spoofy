@@ -1,5 +1,5 @@
 import { api } from "../../../services/axios-config/api";
-import { IMusicData } from "../../cardSong/types";
+import { ISearchDataType } from "./type";
 
 export class NavBarServices {
   static async logout(): Promise<any> {
@@ -13,7 +13,7 @@ export class NavBarServices {
   }: {
     music: string;
     artist?: string;
-  }): Promise<IMusicData> {
+  }): Promise<ISearchDataType> {
     const { data } = await api.post("/lyrics", { music, artist });
     return data;
   }

@@ -1,17 +1,18 @@
 import { UserRound, AlignJustify, X } from "lucide-react";
-import { useReducer, useRef, useState } from "react";
+import { useReducer, useRef } from "react";
 import { DropdownMenu } from "./components/dropDownMenu/dropdownMenu";
 import { SideBar } from "./components/sideBarMenu";
 import { SearchSongs } from "./components/searchSongs";
+import { ISearchDataType } from "./services/type";
 interface INavBar {
-  setSearchData: (data: any) => void;
+  setSearchData: (value: ISearchDataType | null) => void;
   setIsLoadingSearchData: (isLoading: boolean) => void;
 }
 
-export const NavBar = ({}: INavBar) => {
+export const NavBar = ({ setSearchData, setIsLoadingSearchData }: INavBar) => {
+  const sideMenuRef = useRef<HTMLDivElement>(null);
   const [openSideMenu, toggleOpenSideMenu] = useReducer((prev) => !prev, false);
   const [openUserMenu, toggleOpenUserMenu] = useReducer((prev) => !prev, false);
-  const sideMenuRef = useRef<HTMLDivElement>(null);
 
   const handleClickOutside = (event: any) => {
     if (sideMenuRef.current && !sideMenuRef.current.contains(event.target)) {
@@ -28,7 +29,10 @@ export const NavBar = ({}: INavBar) => {
 
         <div className="flex flex-row items-center gap-4 w-full  sm:max-w-md ">
           <div className="w-full">
-            <SearchSongs />
+            <SearchSongs
+              setSearchData={setSearchData}
+              setIsLoadingSearchData={setIsLoadingSearchData}
+            />
           </div>
 
           <div className="block sm:hidden bg-[#2c3444] w-12 h-10 flex items-center justify-center rounded-full p-1">

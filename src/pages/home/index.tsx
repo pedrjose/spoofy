@@ -9,9 +9,11 @@ import { NotFound } from "../../components/notFound";
 import { NavBar } from "../../components/navbar";
 import { useState } from "react";
 import { PlaylistSidebar } from "../../components/playlistSideBar";
+import { ISearchDataType } from "../../components/navbar/services/type";
+import { PlaylistSideBarServices } from "../../components/playlistSideBar/services";
 
 export const Home = () => {
-  const [searchData, setSearchData] = useState();
+  const [searchData, setSearchData] = useState<ISearchDataType | null>();
   const [isLoadingSearchData, setIsLoadingSearchData] =
     useState<boolean>(false);
 
@@ -28,9 +30,28 @@ export const Home = () => {
     },
   });
 
+  const {
+    isLoading: isLoadingPlaylists,
+    data: Playlists,
+    refetch: refetchPlaylists,
+  } = useQuery({
+    queryKey: homeQueryKeys.playlist,
+    queryFn: async () => {
+      try {
+        const res = await PlaylistSideBarServices.get();
+        return res;
+      } catch (error) {
+        customToast({ msg: "Erro ao carregar playlists", type: "error" });
+        throw error;
+      }
+    },
+  });
+
+  const isAnyLoading = isLoading || isLoadingSearchData || isLoadingPlaylists;
+
   return (
     <>
-      <header className="p-1">
+      <header className="mt-1">
         <NavBar
           setSearchData={setSearchData}
           setIsLoadingSearchData={setIsLoadingSearchData}
@@ -39,12 +60,18 @@ export const Home = () => {
 
       <div className="flex gap-1 p-2" style={{ height: "calc(100vh - 66px)" }}>
         <aside className="w-80 hidden md:block text-white">
-          <PlaylistSidebar />
+          {isLoadingPlaylists ? (
+            <div className="flex justify-center items-center h-full">
+              <Spinner />
+            </div>
+          ) : (
+            <PlaylistSidebar playlists={Playlists} refetch={refetchPlaylists} />
+          )}
         </aside>
 
         <main className="flex-1 bg-[#56595e30] p-2 rounded-lg overflow-y-auto scrollbar-thin scrollbar-thumb-[#4ade8086] scrollbar-track-[#2c3444] mr-1 text-white">
-          <div className="my-7 flex flex-row justify-between items-center pr-1">
-            <h1 className="text-2xl font-bold mb-4 uppercase tracking-wide">
+          <div className="my-1 flex flex-row justify-between items-center pr-1">
+            <h1 className="text-2xl font-bold mb-5 uppercase tracking-wide">
               {"Escolha Sua Próxima Música"}
             </h1>
 
@@ -53,7 +80,7 @@ export const Home = () => {
             </button>
           </div>
 
-          {isLoading || isLoadingSearchData ? (
+          {isAnyLoading ? (
             <div className="flex justify-center items-center h-64">
               <Spinner />
             </div>

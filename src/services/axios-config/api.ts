@@ -6,6 +6,7 @@ import { requestInterceptor } from "./interceptores/requesteInterceptor";
 export const api = axios.create({
   baseURL: "http://localhost:3000/api/v1/",
   timeout: 10000,
+  withCredentials: true,
   headers: {
     "Content-Type": "application/json",
   },
@@ -20,3 +21,7 @@ api.interceptors.request.use(
   (req) => requestInterceptor(req),
   (erro) => errorInterceptor(erro)
 );
+
+export const apiGemini = axios.create({
+  baseURL: "http://localhost:3000/",
+});

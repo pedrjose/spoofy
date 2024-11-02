@@ -1,6 +1,7 @@
 export interface IPlaylist {
   playlistName: string;
   playlistLyrics: ILyric[];
+  _id: string;
 }
 
 export interface ILyric {

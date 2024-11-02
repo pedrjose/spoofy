@@ -2,14 +2,14 @@ import { ListFilter } from "lucide-react";
 import { CardSong } from "../../components/cardSong";
 import { useQuery } from "@tanstack/react-query";
 import { homeQueryKeys } from "./utils/queryKeys";
-import { HomeServices } from "./services/index.service";
+import { HomeServices } from "./services";
 import { customToast } from "../../components/customToast/customToast";
 import { Spinner } from "../../components/Spinner";
 import { NotFound } from "../../components/notFound";
 import { NavBar } from "../../components/navbar";
 import { useState } from "react";
 import { PlaylistSidebar } from "../../components/playlistSideBar";
-import { ISearchDataType } from "../../components/navbar/services/type";
+import { ISearchDataType } from "../../services/searchMusic/type";
 import { PlaylistSideBarServices } from "../../components/playlistSideBar/services";
 
 export const Home = () => {
@@ -39,7 +39,7 @@ export const Home = () => {
     queryFn: async () => {
       try {
         const res = await PlaylistSideBarServices.get();
-        return res;
+        return res.data;
       } catch (error) {
         customToast({ msg: "Erro ao carregar playlists", type: "error" });
         throw error;
@@ -65,7 +65,10 @@ export const Home = () => {
               <Spinner />
             </div>
           ) : (
-            <PlaylistSidebar playlists={Playlists} refetch={refetchPlaylists} />
+            <PlaylistSidebar
+              playlists={Playlists ?? []}
+              refetch={refetchPlaylists}
+            />
           )}
         </aside>
 
@@ -86,7 +89,7 @@ export const Home = () => {
             </div>
           ) : data ? (
             <div className="flex flex-row flex-wrap gap-6 md:justify-start justify-center">
-              <CardSong songs={(data || searchData) ?? []} />
+              <CardSong songs={data ?? []} />
             </div>
           ) : (
             <NotFound />

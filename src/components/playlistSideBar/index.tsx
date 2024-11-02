@@ -1,12 +1,13 @@
 import { useState } from "react";
-import { FolderPlus, Music, Trash2 } from "lucide-react";
-import { DeleteModal } from "./deleteModal";
+import { FolderPlus, Music, Plus, Trash2 } from "lucide-react";
+import { DeleteModal } from "../deleteModal/deleteModal";
 import { IPlaylist } from "./types";
 import { useMutation } from "@tanstack/react-query";
 import { PlaylistSideBarServices } from "./services";
 import { IErrorResponse } from "../../@types/errorResponse";
 import { customToast } from "../customToast/customToast";
 import { Spinner } from "../Spinner";
+import { AddSongModal } from "./components/addSongsModal";
 
 interface IPlaylistSideBar {
   playlists?: IPlaylist[];
@@ -19,6 +20,8 @@ export const PlaylistSidebar = ({ playlists, refetch }: IPlaylistSideBar) => {
   const [playlistToDelete, setPlaylistToDelete] = useState<IPlaylist | null>(
     null
   );
+  const [isAddingSong, setIsAddingSong] = useState(false);
+  const [playlistId, setPlaylistId] = useState("");
 
   const addPlaylist = () => {
     if (!newPlaylistName.trim()) return;
@@ -47,8 +50,8 @@ export const PlaylistSidebar = ({ playlists, refetch }: IPlaylistSideBar) => {
 
   const { isPending: isPendingDelete, mutateAsync: mutateAsyncDelete } =
     useMutation({
-      mutationFn: async (playlistName: string) => {
-        const data = await PlaylistSideBarServices.delete(playlistName);
+      mutationFn: async (playlistId: string) => {
+        const data = await PlaylistSideBarServices.delete(playlistId);
         return data;
       },
       onError(error: IErrorResponse) {
@@ -64,13 +67,13 @@ export const PlaylistSidebar = ({ playlists, refetch }: IPlaylistSideBar) => {
     });
 
   const deletePlaylist = () => {
-    if (!playlistToDelete?.playlistName) return;
-    mutateAsyncDelete(playlistToDelete?.playlistName);
+    if (!playlistToDelete?._id) return;
+    mutateAsyncDelete(playlistToDelete?._id);
     setPlaylistToDelete(null);
   };
 
   return (
-    <div className="w-full h-full rounded-lg bg-gray-800 text-white p-4">
+    <div className="w-full h-full rounded-lg bg-[#56595e30] text-white p-4">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-xl font-bold">Suas Playlists</h2>
         <button
@@ -89,7 +92,10 @@ export const PlaylistSidebar = ({ playlists, refetch }: IPlaylistSideBar) => {
           <Spinner />
         </div>
       ) : (
-        <div className="h-[500px] border border-gray-700 rounded-lg p-2 overflow-y-auto">
+        <div
+          style={{ height: "calc(100vh - 300px)" }}
+          className="border border-gray-700 rounded-lg p-2 overflow-y-auto"
+        >
           {playlists?.map((playlist, index) => (
             <div
               key={index}
@@ -99,12 +105,28 @@ export const PlaylistSidebar = ({ playlists, refetch }: IPlaylistSideBar) => {
                 <Music className="h-5 w-5 text-green-500" />
                 <span className="font-medium">{playlist.playlistName}</span>
               </div>
-              <button
-                className="p-1 text-gray-400 hover:text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-                onClick={() => setPlaylistToDelete(playlist)}
-              >
-                <Trash2 className="h-4 w-4" />
-              </button>
+
+              <div>
+                <button
+                  disabled={isPending || isPendingDelete}
+                  onClick={() => {
+                    setIsAddingSong(true);
+                    setPlaylistId(playlist._id);
+                  }}
+                  className="p-1 text-gray-400 hover:text-white  group-hover:opacity-100 transition-opacity duration-200"
+                  aria-label="Adicionar música à playlist"
+                  title="Adicionar música à playlist"
+                >
+                  <Plus className="h-5 w-5" />
+                </button>
+
+                <button
+                  className="p-1 text-gray-400 hover:text-white  group-hover:opacity-100 transition-opacity duration-200"
+                  onClick={() => setPlaylistToDelete(playlist)}
+                >
+                  <Trash2 className="h-5 w-5" />
+                </button>
+              </div>
             </div>
           ))}
         </div>
@@ -146,9 +168,17 @@ export const PlaylistSidebar = ({ playlists, refetch }: IPlaylistSideBar) => {
 
       {playlistToDelete && (
         <DeleteModal
-          title={`a playlist ${playlistToDelete.playlistName}`}
+          title={`a playlist ${playlistToDelete?.playlistName}`}
           onCancel={() => setPlaylistToDelete(null)}
           onDelete={deletePlaylist}
+        />
+      )}
+
+      {isAddingSong && (
+        <AddSongModal
+          refetch={refetch}
+          playlistId={playlistId}
+          onClose={() => setIsAddingSong(false)}
         />
       )}
     </div>

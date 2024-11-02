@@ -16,13 +16,13 @@ export const CardSong = ({ songs }: ICardSong) => {
           key={song.id}
           className="relative w-[260px] bg-[#232d3df4] rounded-lg p-3 flex flex-col justify-between"
           whileHover={{ scale: 1.02 }}
-          onClick={() => navigate(learningPageRoutes.learningPage(song.id))}
+          onClick={() => navigate(learningPageRoutes.learningPage(song.name))}
         >
-          <div className="w-full h-49 bg-[#0F172A] rounded-md mb-1 flex items-center justify-center overflow-hidden ">
+          <div className="w-full  h-40 bg-[#0F172A] rounded-md mb-1 flex items-center justify-center overflow-hidden ">
             <img
               src={song.art.pic_medium}
               alt={`${song.art.name} image`}
-              className="object-cover w-full h-full transition duration-700 ease-in-out grayscale hover:grayscale-0"
+              className="object-cover w-full transition duration-700 ease-in-out grayscale hover:grayscale-0"
             />
           </div>
 

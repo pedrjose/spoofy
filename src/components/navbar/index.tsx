@@ -2,8 +2,8 @@ import { UserRound, AlignJustify, X } from "lucide-react";
 import { useReducer, useRef } from "react";
 import { DropdownMenu } from "./components/dropDownMenu/dropdownMenu";
 import { SideBar } from "./components/sideBarMenu";
-import { SearchSongs } from "./components/searchSongs";
-import { ISearchDataType } from "./services/type";
+import { SearchSongs } from "../searchSongs";
+import { ISearchDataType } from "../../services/searchMusic/type";
 interface INavBar {
   setSearchData: (value: ISearchDataType | null) => void;
   setIsLoadingSearchData: (isLoading: boolean) => void;

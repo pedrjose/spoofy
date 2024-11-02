@@ -31,7 +31,7 @@ export const DeleteModal = ({
   }, [onCancel]);
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
+    <div className="fixed z-10 inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
       <div
         ref={modalRef}
         className="bg-gray-800 rounded-lg p-6 max-w-sm w-full"

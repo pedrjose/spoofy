@@ -9,7 +9,7 @@ import { useAuthContext } from "../../context/auth/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { customToast } from "../../components/customToast/customToast";
 import { ILoginRequest } from "./services/types";
-import { LoginService } from "./services/loginService.service";
+import { LoginService } from "./services/loginService";
 
 export const Login = () => {
   const [showPassword, setShowPassword] = useState(false);

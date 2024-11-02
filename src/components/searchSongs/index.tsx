@@ -1,10 +1,10 @@
 import { useMutation } from "@tanstack/react-query";
 import { Search } from "lucide-react";
 import { useState } from "react";
-import { NavBarServices } from "../../services/index.service";
-import { customToast } from "../../../customToast/customToast";
-import { ISearchDataType } from "../../services/type";
-import { IErrorResponse } from "../../../../@types/errorResponse";
+import { customToast } from "../customToast/customToast";
+import { ISearchDataType } from "../../services/searchMusic/type";
+import { IErrorResponse } from "../../@types/errorResponse";
+import { SearchMusicServices } from "../../services/searchMusic";
 
 interface ISearchSongs {
   setSearchData: (value: ISearchDataType | null) => void;
@@ -30,12 +30,19 @@ export const SearchSongs = ({
       songName: string;
       artistName: string;
     }) => {
-      const data = await NavBarServices.searchMusic({
+      const  data  = await SearchMusicServices.get({
         music: songName,
         artist: artistName,
       });
 
-      setSearchData(data);
+      if (!data.success) {
+        return customToast({
+          msg:  "Musica não encontrada",
+          type: "error",
+        });
+      }
+
+      setSearchData(data.data);
       setIsLoadingSearchData(isPending);
       return data;
     },

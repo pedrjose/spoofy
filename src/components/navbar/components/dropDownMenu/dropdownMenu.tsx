@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { NavBarServices } from "../../services/index.service";
+import { NavBarServices } from "../../services";
 import { useAuthContext } from "../../../../context/auth/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { customToast } from "../../../customToast/customToast";

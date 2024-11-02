@@ -3,7 +3,7 @@ import { sideBarMenuItems } from "./sideBarMenuItems";
 import { useAuthContext } from "../../../../context/auth/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
-import { NavBarServices } from "../../services/index.service";
+import { NavBarServices } from "../../services";
 import { customToast } from "../../../customToast/customToast";
 
 export const SideBar = () => {

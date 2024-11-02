@@ -7,7 +7,7 @@ import { schema } from "./schema";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { customToast } from "../../components/customToast/customToast";
-import { RegisterService } from "./services/registerService.service";
+import { RegisterService } from "./services/registerService";
 import { IRegisterRequest } from "./services/types";
 import { IErrorResponse } from "../../@types/errorResponse";
 

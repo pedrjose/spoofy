@@ -9,7 +9,6 @@ import { AuthProvider } from "./context/auth/AuthContext";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Home } from "./pages/home";
 import PrivateRoute from "./auth/privateRouter";
-import {} from "./pages/learningPage";
 
 function App() {
   return (

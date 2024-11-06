@@ -21,6 +21,7 @@ export const SideBar = () => {
     onError: () =>
       customToast({ msg: "Erro ao tentar deslogar", type: "error" }),
   });
+
   return (
     <div className="flex flex-col h-full w-64 bg-gray-900 text-gray-100">
       <div className="p-4">

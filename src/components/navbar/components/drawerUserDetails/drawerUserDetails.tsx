@@ -1,5 +1,8 @@
 import { useState } from "react";
 import { X, Camera } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { DrawerUserDetailsServices } from "./services";
+import { customToast } from "../../../customToast/customToast";
 
 interface IDrawerUserDetails {
   open: boolean;
@@ -8,6 +11,19 @@ interface IDrawerUserDetails {
 
 export const DrawerUserDetails = ({ onClose, open }: IDrawerUserDetails) => {
   const [imagePreview, setImagePreview] = useState("/placeholder.svg");
+
+  const { data } = useQuery({
+    queryKey: ["DrawerUserDetails"],
+    queryFn: async () => {
+      try {
+        const res = await DrawerUserDetailsServices.getDetails();
+        return res.data;
+      } catch (error) {
+        customToast({ msg: "Erro ao carregar os dados", type: "error" });
+        throw error;
+      }
+    },
+  });
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -53,13 +69,14 @@ export const DrawerUserDetails = ({ onClose, open }: IDrawerUserDetails) => {
             <div className="flex flex-col items-center space-y-4">
               <div className="relative group">
                 <img
-                  src={imagePreview}
+                  src={imagePreview || data?.photo}
                   alt="Profile"
                   className="w-24 h-24 rounded-full object-cover"
                 />
                 <label className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-full opacity-0 group-hover:opacity-100 cursor-pointer transition-opacity">
                   <Camera className="w-6 h-6 text-white" />
                   <input
+                    disabled={!!data?.photo}
                     type="file"
                     accept="image/*"
                     onChange={handleImageChange}
@@ -81,8 +98,10 @@ export const DrawerUserDetails = ({ onClose, open }: IDrawerUserDetails) => {
                 <input
                   type="text"
                   id="name"
-                  className="w-full bg-[#282828] text-white p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1ED760]"
+                  value={data?.name}
+                  disabled
                   placeholder="Seu nome"
+                  className="w-full bg-[#282828] text-white p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1ED760]"
                 />
               </div>
               <div className="space-y-2">
@@ -90,10 +109,12 @@ export const DrawerUserDetails = ({ onClose, open }: IDrawerUserDetails) => {
                   Email
                 </label>
                 <input
-                  type="email"
                   id="email"
-                  className="w-full bg-[#282828] text-white p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1ED760]"
+                  type="email"
+                  value={data?.email}
+                  disabled
                   placeholder="seu@email.com"
+                  className="w-full bg-[#282828] text-white p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1ED760]"
                 />
               </div>
             </div>

@@ -8,7 +8,6 @@ import { queryClient } from "./constants/queryClient";
 import { AuthProvider } from "./context/auth/AuthContext";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Home } from "./pages/home";
-import PrivateRoute from "./auth/privateRouter";
 
 function App() {
   return (
@@ -19,9 +18,9 @@ function App() {
             <Route path="/" element={<Login />} />
             <Route path="/register" element={<Register />} />
 
-            <Route element={<PrivateRoute />}>
-              <Route path="/home" element={<Home />} />
-            </Route>
+            {/* <Route element={<PrivateRoute />}> */}
+            <Route path="/home" element={<Home />} />
+            {/* </Route> */}
           </Routes>
         </BrowserRouter>
         <ToastContainer />

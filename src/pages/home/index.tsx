@@ -13,7 +13,7 @@ import { ISearchDataType } from "../../services/searchMusic/type";
 import { PlaylistSideBarServices } from "../../components/playlistSideBar/services";
 
 export const Home = () => {
-  const [searchData, setSearchData] = useState<ISearchDataType | null>();
+  const [, setSearchData] = useState<ISearchDataType | null>();
   const [isLoadingSearchData, setIsLoadingSearchData] =
     useState<boolean>(false);
 

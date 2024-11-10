@@ -10,12 +10,17 @@ export class SearchMusicServices {
     music: string;
     artist?: string;
   }): Promise<IResponseData<ISearchDataType>> {
-    const { data } = await api.get("/lyrics", {
+    const { data } = await api.get("/lyric", {
       params: {
         music,
         artist,
       },
     });
+    return data;
+  }
+
+  static async getById(id: number): Promise<IResponseData<ISearchDataType>> {
+    const { data } = await api.get(`/lyric/${id}`);
     return data;
   }
 }

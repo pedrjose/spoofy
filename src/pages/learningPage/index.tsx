@@ -5,9 +5,9 @@ import { LearningPageServices } from "./services";
 import { Question } from "./types";
 import { Spinner } from "../../components/Spinner";
 import { customToast } from "../../components/customToast/customToast";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-export const LearningPage = ({ lyric }: { lyric: string }) => {
+export const LearningPage = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [score, setScore] = useState(0);
   const [showResult, setShowResult] = useState(false);
@@ -17,13 +17,15 @@ export const LearningPage = ({ lyric }: { lyric: string }) => {
   const [shake, setShake] = useState(false);
   const [questions, setQuestions] = useState<Question[]>([]);
   const navigate = useNavigate();
+  const params = useParams();
+  const { lyric } = params;
 
   const { isLoading } = useQuery({
     queryKey: ["lyricAnswers"],
     enabled: !!lyric,
     queryFn: async () => {
       try {
-        const res = await LearningPageServices.getAnswers(lyric);
+        const res = await LearningPageServices.getAnswers(lyric ?? "");
         setQuestions(res);
         return res;
       } catch (error) {

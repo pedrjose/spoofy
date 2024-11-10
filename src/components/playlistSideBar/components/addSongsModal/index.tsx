@@ -71,16 +71,16 @@ export const AddSongModal = ({
               >
                 <div>
                   <p className="text-white font-medium">
-                    {searchData.art.name}
+                    {searchData.title}
                   </p>
-                  <p className="text-gray-400 text-sm">{searchData.art.id}</p>
+                  <p className="text-gray-400 text-sm">{searchData.id}</p>
                 </div>
                 <button
                   onClick={() =>
                     mutateAsync({ playlistId, searchDataSelected: searchData })
                   }
                   className="p-1 bg-green-600 hover:bg-green-700 text-white rounded-full transition-colors duration-200"
-                  aria-label={`Adicionar ${searchData.art.name}`}
+                  aria-label={`Adicionar ${searchData.title}`}
                 >
                   <Plus size={18} />
                 </button>

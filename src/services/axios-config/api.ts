@@ -23,5 +23,5 @@ api.interceptors.request.use(
 );
 
 export const apiGemini = axios.create({
-  baseURL: "http://localhost:3000/",
+  baseURL: "http://localhost:3001/",
 });

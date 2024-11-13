@@ -9,7 +9,6 @@ import { Register } from "./auth/register";
 import { queryClient } from "./constants/queryClient";
 import { AuthProvider } from "./context/auth/AuthContext";
 import { Home } from "./pages/home";
-import {} from "./pages/learningPage";
 
 function App() {
     return (
@@ -20,9 +19,9 @@ function App() {
                         <Route path="/" element={<Login />} />
                         <Route path="/register" element={<Register />} />
 
-                        <Route element={<PrivateRoute />}>
-                            <Route path="/home" element={<Home />} />
-                        </Route>
+                        {/* <Route element={<PrivateRoute />}> */}
+                        <Route path="/home" element={<Home />} />
+                        {/* </Route> */}
                     </Routes>
                 </BrowserRouter>
                 <ToastContainer />

@@ -1,44 +1,43 @@
-import { useState } from "react";
-import { ChevronRight, Eye, EyeOff, Loader2, Music } from "lucide-react";
-import { motion } from "framer-motion";
-import { useForm } from "react-hook-form";
 import { joiResolver } from "@hookform/resolvers/joi";
-import { schema } from "./schema";
 import { useMutation } from "@tanstack/react-query";
-import { useAuthContext } from "../../context/auth/AuthContext";
+import { motion } from "framer-motion";
+import { ChevronRight, Eye, EyeOff, Loader2, Music } from "lucide-react";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { customToast } from "../../components/customToast/customToast";
-import { ILoginRequest } from "./services/types";
+import { useAuthContext } from "../../context/auth/AuthContext";
+import { schema } from "./schema";
 import { LoginService } from "./services/loginService";
+import { ILoginRequest } from "./services/types";
 
 export const Login = () => {
-  const [showPassword, setShowPassword] = useState(false);
-  const form = useForm<ILoginRequest>({
-    resolver: joiResolver(schema),
-  });
-  const navigate = useNavigate();
+    const [showPassword, setShowPassword] = useState(false);
+    const form = useForm<ILoginRequest>({
+        resolver: joiResolver(schema),
+    });
+    const navigate = useNavigate();
 
-  const { setAuthToken } = useAuthContext();
-  const {
-    formState: { errors },
-    handleSubmit,
-    register,
-    watch,
-  } = form;
+    const { setAuthToken } = useAuthContext();
+    const {
+        formState: { errors },
+        handleSubmit,
+        register,
+        watch,
+    } = form;
 
-  const { mutateAsync, isPending } = useMutation({
-    mutationFn: async (values: ILoginRequest) => {
-      const response = await LoginService.login(values);
-      setAuthToken(response.data.token);
-    },
-    onSuccess: () => {
-      navigate("/home");
-    },
-    onError: () =>
-      customToast({ msg: "Erro ao tentar fazer login", type: "error" }),
-  });
+    const { mutateAsync, isPending } = useMutation({
+        mutationFn: async (values: ILoginRequest) => {
+            const response = await LoginService.login(values);
+            setAuthToken(response.data.token);
+        },
+        onSuccess: () => {
+            navigate("/home");
+        },
+        onError: () => customToast({ msg: "Erro ao tentar fazer login", type: "error" }),
+    });
 
-  const submit = (values: ILoginRequest) => mutateAsync(values);
+    const submit = (values: ILoginRequest) => mutateAsync(values);
 
     return (
         <div className="flex justify-center items-center flex-col h-dvh w-full bg-gradient-to-b from-spoof-blue from-70% to-green-500">
@@ -103,29 +102,27 @@ export const Login = () => {
                         </button>
                     </div>
 
-          <div className="mt-6 flex items-center justify-center space-x-2 text-sm text-gray-400">
-            <span>Não tem uma conta?</span>
-            <motion.a
-              style={{
-                pointerEvents: isPending ? "none" : "auto",
-                cursor: "pointer",
-              }}
-              className="font-semibold text-[#4ADE80] hover:underline flex  items-center justify-center"
-              whileHover={{ scale: 1.1 }}
-              onClick={() => navigate("register")}
-            >
-              Inscrever-se
-              <motion.span
-                className="ml-1 "
-                animate={{ x: [0, 5, 0] }}
-                transition={{ repeat: Infinity, duration: 1 }}
-              >
-                <ChevronRight className="h-4 w-4" />
-              </motion.span>
-            </motion.a>
-          </div>
+                    <div className="mt-6 flex items-center justify-center space-x-2 text-sm text-gray-400">
+                        <span>Não tem uma conta?</span>
+                        <motion.a
+                            style={{
+                                pointerEvents: isPending ? "none" : "auto",
+                                cursor: "pointer",
+                            }}
+                            className="font-semibold text-[#4ADE80] hover:underline flex  items-center justify-center"
+                            whileHover={{ scale: 1.1 }}
+                            onClick={() => navigate("register")}>
+                            Inscrever-se
+                            <motion.span
+                                className="ml-1 "
+                                animate={{ x: [0, 5, 0] }}
+                                transition={{ repeat: Infinity, duration: 1 }}>
+                                <ChevronRight className="h-4 w-4" />
+                            </motion.span>
+                        </motion.a>
+                    </div>
+                </div>
+            </form>
         </div>
-      </form>
-    </div>
-  );
+    );
 };

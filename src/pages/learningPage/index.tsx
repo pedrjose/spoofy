@@ -6,6 +6,7 @@ import { Question } from "./types";
 import { Spinner } from "../../components/Spinner";
 import { customToast } from "../../components/customToast/customToast";
 import { useNavigate, useParams } from "react-router-dom";
+import { formatLyric } from "./utils/formatLyrics";
 
 export const LearningPage = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -19,6 +20,8 @@ export const LearningPage = () => {
   const navigate = useNavigate();
   const params = useParams();
   const { lyric } = params;
+  const [expanded, setExpanded] = useState(false);
+  const lineLimit = 5;
 
   const { isLoading } = useQuery({
     queryKey: ["lyricAnswers"],
@@ -115,7 +118,17 @@ export const LearningPage = () => {
               <h2 className="text-3xl font-bold mb-4 text-[#1DB954]">
                 Letra da Música
               </h2>
-              <p className="whitespace-pre-line text-white">{lyric}</p>
+              <p className="whitespace-pre-line text-white">
+                {formatLyric(lyric!, lineLimit, expanded)}
+              </p>
+              {lyric!.split("\n").length > lineLimit && (
+                <button
+                  className="text-[#1DB954] mt-4"
+                  onClick={() => setExpanded(!expanded)}
+                >
+                  {expanded ? "Mostrar menos" : "Mostrar mais"}
+                </button>
+              )}
             </div>
 
             {!showResult ? (

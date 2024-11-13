@@ -1,15 +1,15 @@
-import { joiResolver } from "@hookform/resolvers/joi";
-import { useMutation } from "@tanstack/react-query";
-import { motion } from "framer-motion";
-import { ChevronRight, Eye, EyeOff, Loader2, Music } from "lucide-react";
 import { useState } from "react";
+import { ChevronRight, Eye, EyeOff, Loader2, Music } from "lucide-react";
+import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
+import { joiResolver } from "@hookform/resolvers/joi";
+import { schema } from "./schema";
+import { useMutation } from "@tanstack/react-query";
+import { useAuthContext } from "../../context/auth/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { customToast } from "../../components/customToast/customToast";
-import { useAuthContext } from "../../context/auth/AuthContext";
-import { schema } from "./schema";
-import { LoginService } from "./services/loginService";
 import { ILoginRequest } from "./services/types";
+import { LoginService } from "./services/loginService";
 
 export const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -40,86 +40,68 @@ export const Login = () => {
 
   const submit = (values: ILoginRequest) => mutateAsync(values);
 
-  return (
-    <div className="flex justify-center items-center flex-col h-dvh w-full bg-gradient-to-b from-spoof-blue from-70% to-green-500">
-      <div className="mb-8 flex flex-col justify-center items-center ">
-        <h2 className="text-6xl font-bold text-white text-shadow-lg bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-blue-500 p-3">
-          Spoofy
-        </h2>
-        <motion.div
-          animate={{ rotate: [0, 10, -10, 0] }}
-          transition={{ repeat: Infinity, duration: 2 }}
-        >
-          <Music className="h-16 w-16 text-[#4ADE80]" />
-        </motion.div>
-      </div>
-
-      <form
-        onSubmit={handleSubmit(submit)}
-        className="w-full flex justify-center items-center p-2"
-      >
-        <div className="w-[400px] md:w-[500px] rounded-xl bg-[#1E293B] px-8 py-10 shadow-2xl">
-          <h2 className="mb-6 text-center text-3xl font-bold text-white text-shadow-lg">
-            Login
-          </h2>
-
-          <div className="mb-4">
-            <input
-              type="text"
-              disabled={isPending}
-              placeholder="Email"
-              value={watch("email")}
-              {...register("email")}
-              className="w-full text-white rounded-md border-1 border-[#4ADE80] p-3  placeholder-gray-400 focus:border-[#4ADE80] focus:outline-none focus:ring-2 focus:ring-[#4ADE80] disabled:opacity-50 disabled:cursor-not-allowed bg-gray-700  "
-            />
-            {errors.email && (
-              <div className="p-1">
-                <p className="text-red-500 text-sm">{errors.email.message}</p>
-              </div>
-            )}
-          </div>
-
-          <div className="relative">
-            <input
-              type={showPassword ? "text" : "password"}
-              placeholder="Senha"
-              disabled={isPending}
-              value={watch("password")}
-              {...register("password")}
-              className="w-full rounded-md text-white border-1 border-[#4ADE80] p-3 placeholder-gray-400 focus:border-[#4ADE80] focus:outline-none focus:ring-2 focus:ring-[#4ADE80] disabled:opacity-50 disabled:cursor-not-allowed bg-gray-700"
-            />
-            <button
-              type="button"
-              disabled={isPending}
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {showPassword ? (
-                <EyeOff className="h-5 w-5" />
-              ) : (
-                <Eye className="h-5 w-5" />
-              )}
-            </button>
-          </div>
-          {errors.password && (
-            <div className="p-1 mb-4">
-              <p className="text-red-500 text-sm">{errors.password.message}</p>
+    return (
+        <div className="flex justify-center items-center flex-col h-dvh w-full bg-gradient-to-b from-spoof-blue from-70% to-green-500">
+            <div className="mb-8 flex flex-col justify-center items-center ">
+                <h2 className="text-6xl font-bold text-white text-shadow-lg bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-blue-500 p-3">
+                    Spoofy
+                </h2>
+                <motion.div animate={{ rotate: [0, 10, -10, 0] }} transition={{ repeat: Infinity, duration: 2 }}>
+                    <Music className="h-16 w-16 text-[#4ADE80]" />
+                </motion.div>
             </div>
-          )}
 
-          <div className="mt-9">
-            <button
-              type="submit"
-              disabled={isPending}
-              className="w-full rounded-md bg-[#4ADE80] p-3 text-lg font-semibold text-white transition-colors hover:bg-[#22c55e] focus:outline-none focus:ring-2 focus:ring-[#4ADE80] focus:ring-offset-2 focus:ring-offset-[#1E293B] disabled:opacity-50 disabled:cursor-not-allowed duration-300"
-            >
-              {isPending ? (
-                <Loader2 className="w-5 h-5 animate-spin mx-auto" />
-              ) : (
-                "Entrar"
-              )}
-            </button>
-          </div>
+            <form onSubmit={handleSubmit(submit)} className="w-full flex justify-center items-center p-2">
+                <div className="w-[400px] md:w-[500px] rounded-xl bg-[#1E293B] px-8 py-10 shadow-2xl">
+                    <h2 className="mb-6 text-center text-3xl font-bold text-white text-shadow-lg">Login</h2>
+
+                    <div className="mb-4">
+                        <input
+                            type="text"
+                            disabled={isPending}
+                            placeholder="Email"
+                            value={watch("email")}
+                            {...register("email")}
+                            className="w-full text-white rounded-md border-1 border-[#4ADE80] p-3  placeholder-gray-400 focus:border-[#4ADE80] focus:outline-none focus:ring-2 focus:ring-[#4ADE80] disabled:opacity-50 disabled:cursor-not-allowed bg-gray-700  "
+                        />
+                        {errors.email && (
+                            <div className="p-1">
+                                <p className="text-red-500 text-sm">{errors.email.message}</p>
+                            </div>
+                        )}
+                    </div>
+
+                    <div className="relative">
+                        <input
+                            type={showPassword ? "text" : "password"}
+                            placeholder="Senha"
+                            disabled={isPending}
+                            value={watch("password")}
+                            {...register("password")}
+                            className="w-full rounded-md text-white border-1 border-[#4ADE80] p-3 placeholder-gray-400 focus:border-[#4ADE80] focus:outline-none focus:ring-2 focus:ring-[#4ADE80] disabled:opacity-50 disabled:cursor-not-allowed bg-gray-700"
+                        />
+                        <button
+                            type="button"
+                            disabled={isPending}
+                            onClick={() => setShowPassword(!showPassword)}
+                            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed">
+                            {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                        </button>
+                    </div>
+                    {errors.password && (
+                        <div className="p-1 mb-4">
+                            <p className="text-red-500 text-sm">{errors.password.message}</p>
+                        </div>
+                    )}
+
+                    <div className="mt-9">
+                        <button
+                            type="submit"
+                            disabled={isPending}
+                            className="w-full rounded-md bg-[#4ADE80] p-3 text-lg font-semibold text-white transition-colors hover:bg-[#22c55e] focus:outline-none focus:ring-2 focus:ring-[#4ADE80] focus:ring-offset-2 focus:ring-offset-[#1E293B] disabled:opacity-50 disabled:cursor-not-allowed duration-300">
+                            {isPending ? <Loader2 className="w-5 h-5 animate-spin mx-auto" /> : "Entrar"}
+                        </button>
+                    </div>
 
           <div className="mt-6 flex items-center justify-center space-x-2 text-sm text-gray-400">
             <span>Não tem uma conta?</span>

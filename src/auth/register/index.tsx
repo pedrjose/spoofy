@@ -1,15 +1,15 @@
-import { joiResolver } from "@hookform/resolvers/joi";
-import { useMutation } from "@tanstack/react-query";
-import { motion } from "framer-motion";
-import { ChevronRight, Eye, EyeOff, Loader2, Music } from "lucide-react";
 import { useState } from "react";
+import { ChevronRight, Eye, EyeOff, Loader2 } from "lucide-react";
+import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-import { IErrorResponse } from "../../@types/errorResponse";
-import { customToast } from "../../components/customToast/customToast";
+import { joiResolver } from "@hookform/resolvers/joi";
 import { schema } from "./schema";
+import { useMutation } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
+import { customToast } from "../../components/customToast/customToast";
 import { RegisterService } from "./services/registerService";
 import { IRegisterRequest } from "./services/types";
+import { IErrorResponse } from "../../@types/errorResponse";
 
 export const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -55,39 +55,25 @@ export const Register = () => {
   const submit = (values: IRegisterRequest) => mutateAsync(values);
 
   return (
-    <div className="flex justify-center items-center flex-col h-dvh w-full bg-gradient-to-b from-spoof-blue from-70% to-green-500">
-      <div className="mb-8 flex flex-col justify-center items-center">
-        <h2 className="text-6xl font-bold text-white text-shadow-lg bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-blue-500 p-2">
-          Spoofy
-        </h2>
-        <motion.div
-          animate={{ rotate: [0, 10, -10, 0] }}
-          transition={{ repeat: Infinity, duration: 2 }}
-        >
-          <Music className="h-16 w-16 text-[#4ADE80]" />
-        </motion.div>
-      </div>
-
+    <div className="flex justify-center items-center h-dvh">
       <form
         onSubmit={handleSubmit(submit)}
         className="w-full flex justify-center items-center p-3"
       >
-        <div className="w-full md:w-[500px] rounded-xl bg-[#1E293B] px-8 py-10 shadow-2xl">
-          <h2 className="text-center text-3xl font-bold text-white">
-            Cadastro
-          </h2>
-          <p className="mb-5 text-center text-slate-400">
+        <div className="w-full md:w-[500px] rounded-xl bg-[#1E293B] px-3 py-5 shadow-xl">
+          <h2 className="text-3xl font-bold text-white">Cadastro</h2>
+          <p className="mb-5 text-slate-400">
             Preencha os dados abaixo para se cadastrar
           </p>
 
-          <div className="mb-4">
+          <div className="mb-3">
             <input
               type="text"
               disabled={isPending}
               placeholder="Nome"
               value={watch("name")}
               {...register("name")}
-              className="w-full text-white rounded-md border-1 border-[#4ADE80]  p-3  placeholder-gray-400 focus:border-[#4ADE80] focus:outline-none focus:ring-2 focus:ring-[#4ADE80] disabled:opacity-50 disabled:cursor-not-allowed bg-gray-700"
+              className="w-full  rounded-lg border-1 border-[#4ADE80]  p-3  placeholder-gray-400 focus:border-[#4ADE80] focus:outline-none focus:ring-2 focus:ring-[#4ADE80] disabled:opacity-50 disabled:cursor-not-allowed"
             />
             {errors.name && (
               <div className="p-1">
@@ -96,14 +82,14 @@ export const Register = () => {
             )}
           </div>
 
-          <div className="mb-4">
+          <div className="mb-3">
             <input
               type="text"
               disabled={isPending}
               placeholder="Email"
               value={watch("email")}
               {...register("email")}
-              className="w-full text-white rounded-md border-1 border-[#4ADE80]  p-3  placeholder-gray-400 focus:border-[#4ADE80] focus:outline-none focus:ring-2 focus:ring-[#4ADE80] disabled:opacity-50 disabled:cursor-not-allowed bg-gray-700"
+              className="w-full  rounded-lg border-1 border-[#4ADE80]  p-3  placeholder-gray-400 focus:border-[#4ADE80] focus:outline-none focus:ring-2 focus:ring-[#4ADE80] disabled:opacity-50 disabled:cursor-not-allowed"
             />
             {errors.email && (
               <div className="p-1">
@@ -119,7 +105,7 @@ export const Register = () => {
               disabled={isPending}
               value={watch("password")}
               {...register("password")}
-              className="w-full text-white rounded-md  border-1 border-[#4ADE80]  p-3  placeholder-gray-400 focus:border-[#4ADE80] focus:outline-none focus:ring-2 focus:ring-[#4ADE80] disabled:opacity-50 disabled:cursor-not-allowed bg-gray-700"
+              className="w-full rounded-lg  border-1 border-[#4ADE80]  p-3  placeholder-gray-400 focus:border-[#4ADE80] focus:outline-none focus:ring-2 focus:ring-[#4ADE80] disabled:opacity-50 disabled:cursor-not-allowed"
             />
             <button
               type="button"
@@ -140,14 +126,14 @@ export const Register = () => {
             </div>
           )}
 
-          <div className="relative mt-4">
+          <div className="relative mt-3">
             <input
               type={showConfirmedPassword ? "text" : "password"}
               placeholder="Confirmar senha"
               disabled={isPending}
               value={watch("passwordConfirmation")}
               {...register("passwordConfirmation")}
-              className="w-full text-white rounded-md  border-1 border-[#4ADE80]  p-3  placeholder-gray-400 focus:border-[#4ADE80] focus:outline-none focus:ring-2 focus:ring-[#4ADE80] disabled:opacity-50 disabled:cursor-not-allowed bg-gray-700"
+              className="w-full rounded-lg  border-1 border-[#4ADE80]  p-3  placeholder-gray-400 focus:border-[#4ADE80] focus:outline-none focus:ring-2 focus:ring-[#4ADE80] disabled:opacity-50 disabled:cursor-not-allowed"
             />
             <button
               type="button"
@@ -174,7 +160,7 @@ export const Register = () => {
             <button
               type="submit"
               disabled={isPending}
-              className="w-full rounded-md bg-[#4ADE80] p-3 text-lg font-semibold text-white transition-colors hover:bg-[#22c55e] focus:outline-none focus:ring-2 focus:ring-[#4ADE80] focus:ring-offset-2 focus:ring-offset-[#1E293B] disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full rounded-lg bg-[#4ADE80] p-3 text-lg font-semibold text-white transition-colors hover:bg-[#22c55e] focus:outline-none focus:ring-2 focus:ring-[#4ADE80] focus:ring-offset-2 focus:ring-offset-[#1E293B] disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isPending ? (
                 <Loader2 className="w-5 h-5 animate-spin mx-auto" />
@@ -184,7 +170,7 @@ export const Register = () => {
             </button>
           </div>
 
-          <div className="mt-4 flex items-center justify-center space-x-2 text-sm text-gray-400">
+          <div className="mt-6 flex items-center justify-center space-x-2 text-sm text-gray-400">
             <span>Já tem uma conta?</span>
             <motion.a
               style={{

@@ -13,16 +13,15 @@ import { ISearchDataType } from "../../services/searchMusic/type";
 import { PlaylistSideBarServices } from "../../components/playlistSideBar/services";
 
 export const Home = () => {
-  const [, setSearchData] = useState<ISearchDataType | null>();
-  const [isLoadingSearchData, setIsLoadingSearchData] =
-    useState<boolean>(false);
+  const [searchData, setSearchData] = useState<ISearchDataType | null>();
+  const [isLoadingSearchData, setIsLoadingSearchData] = useState(false);
 
   const { isLoading, data } = useQuery({
     queryKey: homeQueryKeys.card_song,
     queryFn: async () => {
       try {
         const res = await HomeServices.getTop();
-        return res.data.mus.month.all;
+        return res.data;
       } catch (error) {
         customToast({ msg: "Erro ao carregar músicas", type: "error" });
         throw error;
@@ -48,6 +47,7 @@ export const Home = () => {
   });
 
   const isAnyLoading = isLoading || isLoadingSearchData || isLoadingPlaylists;
+  const songsToDisplay = searchData ? [searchData] : data || [];
 
   return (
     <>
@@ -89,7 +89,7 @@ export const Home = () => {
             </div>
           ) : data ? (
             <div className="flex flex-row flex-wrap gap-6 md:justify-start justify-center">
-              <CardSong songs={data ?? []} />
+              <CardSong songs={songsToDisplay} />
             </div>
           ) : (
             <NotFound />

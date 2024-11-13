@@ -1,13 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Confetti from "react-confetti";
 import { LearningPageServices } from "./services";
 import { Question } from "./types";
 import { Spinner } from "../../components/Spinner";
 import { customToast } from "../../components/customToast/customToast";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-export const LearningPage = ({ lyric }: { lyric: string }) => {
+export const LearningPage = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [score, setScore] = useState(0);
   const [showResult, setShowResult] = useState(false);
@@ -17,13 +17,16 @@ export const LearningPage = ({ lyric }: { lyric: string }) => {
   const [shake, setShake] = useState(false);
   const [questions, setQuestions] = useState<Question[]>([]);
   const navigate = useNavigate();
+  const params = useParams();
+  const { lyric } = params;
+  
 
   const { isLoading } = useQuery({
     queryKey: ["lyricAnswers"],
     enabled: !!lyric,
     queryFn: async () => {
       try {
-        const res = await LearningPageServices.getAnswers(lyric);
+        const res = await LearningPageServices.getAnswers(lyric ?? "");
         setQuestions(res);
         return res;
       } catch (error) {
@@ -86,6 +89,26 @@ export const LearningPage = ({ lyric }: { lyric: string }) => {
     return "bg-[#282828] opacity-50 text-white";
   };
 
+  const lyricsRef = useRef<any>(null);
+
+  useEffect(() => {
+    const scrollText = () => {
+      if (lyricsRef.current) {
+        lyricsRef.current.scrollBy({ top: 1, behavior: "smooth" });
+        if (
+          lyricsRef.current.scrollTop >=
+          lyricsRef.current.scrollHeight - lyricsRef.current.clientHeight
+        ) {
+          lyricsRef.current.scrollTop = 0;
+        }
+      }
+    };
+
+    const interval = setInterval(scrollText, 100); 
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div className="w-full mx-auto bg-[#56595e30] min-h-screen flex items-center justify-center">
       <div className="w-full mx-auto p-4 flex flex-col md:flex-row items-start justify-center gap-6">
@@ -110,10 +133,14 @@ export const LearningPage = ({ lyric }: { lyric: string }) => {
           `}</style>
 
             <div className="bg-[#56595e30] shadow-lg rounded-xl p-6 mb-6 w-full max-w-2xl border border-[#56595e30]">
-              <h2 className="text-3xl font-bold mb-4 text-[#1DB954]">
-                Letra da Música
-              </h2>
-              <p className="whitespace-pre-line text-white">{lyric}</p>
+              <div className="relative h-64 overflow-hidden bg-gray-900 text-green-300 p-4 rounded-lg">
+                <div
+                  ref={lyricsRef}
+                  className="whitespace-pre-wrap leading-relaxed overflow-y-scroll h-full no-scrollbar"
+                >
+                  {lyric}
+                </div>
+              </div>
             </div>
 
             {!showResult ? (

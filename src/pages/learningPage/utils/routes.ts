@@ -1,3 +1,3 @@
 export const learningPageRoutes = {
-  learningPage: (id: string) => `learningPage/${id}`,
+  learningPage: (lyric?: string) => `/learningPage/${lyric}`,
 };

@@ -9,6 +9,8 @@ import { Register } from "./auth/register";
 import { queryClient } from "./constants/queryClient";
 import { AuthProvider } from "./context/auth/AuthContext";
 import { Home } from "./pages/home";
+import { LearningPage } from "./pages/learningPage";
+import CreateReviewForm from "./pages/populate";
 
 function App() {
     return (
@@ -18,9 +20,11 @@ function App() {
                     <Routes>
                         <Route path="/" element={<Login />} />
                         <Route path="/register" element={<Register />} />
+                        <Route path="/popular" element={<CreateReviewForm />} />
 
                         {/* <Route element={<PrivateRoute />}> */}
                         <Route path="/home" element={<Home />} />
+                        <Route path="/learningPage/:lyric" element={<LearningPage />} />
                         {/* </Route> */}
                     </Routes>
                 </BrowserRouter>

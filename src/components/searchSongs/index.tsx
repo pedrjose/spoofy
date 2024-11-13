@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { Search } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { customToast } from "../customToast/customToast";
 import { ISearchDataType } from "../../services/searchMusic/type";
 import { IErrorResponse } from "../../@types/errorResponse";
@@ -15,8 +15,8 @@ export const SearchSongs = ({
   setSearchData,
   setIsLoadingSearchData,
 }: ISearchSongs) => {
-  const [songName, setSongName] = useState("");
-  const [artistName, setArtistName] = useState("");
+  const [songName, setSongName] = useState("Heart of Gold");
+  const [artistName, setArtistName] = useState("Shawn Mendes");
 
   const handleSearch = () => {
     mutateAsync({ artistName, songName });
@@ -30,20 +30,19 @@ export const SearchSongs = ({
       songName: string;
       artistName: string;
     }) => {
-      const  data  = await SearchMusicServices.get({
+      const data = await SearchMusicServices.get({
         music: songName,
         artist: artistName,
       });
 
       if (!data.success) {
         return customToast({
-          msg:  "Musica não encontrada",
+          msg: "Musica não encontrada",
           type: "error",
         });
       }
-
       setSearchData(data.data);
-      setIsLoadingSearchData(isPending);
+
       return data;
     },
     onError(error: IErrorResponse) {
@@ -54,6 +53,10 @@ export const SearchSongs = ({
       });
     },
   });
+
+  useEffect(() => {
+    setIsLoadingSearchData(isPending);
+  }, [isPending]);
 
   return (
     <div className="flex items-center bg-gray-800 rounded-3xl brightness-100 hover:brightness-125 transition ease-in-out p-1">

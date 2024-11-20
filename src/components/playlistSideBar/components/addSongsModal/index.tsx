@@ -49,7 +49,7 @@ export const AddSongModal = ({
   });
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
       <div className="bg-gray-900 p-6 rounded-lg w-5/12 max-h-[80vh] flex flex-col">
         <h2 className="text-xl font-bold mb-4 text-white">
           Adicionar Música à Playlist

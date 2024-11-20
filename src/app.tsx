@@ -13,25 +13,25 @@ import { LearningPage } from "./pages/learningPage";
 import CreateReviewForm from "./pages/populate";
 
 function App() {
-    return (
-        <QueryClientProvider client={queryClient}>
-            <AuthProvider>
-                <BrowserRouter>
-                    <Routes>
-                        <Route path="/" element={<Login />} />
-                        <Route path="/register" element={<Register />} />
-                        <Route path="/popular" element={<CreateReviewForm />} />
+  return (
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/popular" element={<CreateReviewForm />} />
 
-                        {/* <Route element={<PrivateRoute />}> */}
-                        <Route path="/home" element={<Home />} />
-                        <Route path="/learningPage/:lyric" element={<LearningPage />} />
-                        {/* </Route> */}
-                    </Routes>
-                </BrowserRouter>
-                <ToastContainer />
-            </AuthProvider>
-        </QueryClientProvider>
-    );
+            <Route element={<PrivateRoute />}>
+              <Route path="/home" element={<Home />} />
+              <Route path="/learningPage/:lyric" element={<LearningPage />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+        <ToastContainer />
+      </AuthProvider>
+    </QueryClientProvider>
+  );
 }
 
 export default App;

@@ -48,7 +48,7 @@ export const Register = () => {
             }
         },
         onSuccess: () => {
-            navigate("/login");
+            navigate("/");
         },
     });
 
